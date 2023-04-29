@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
+/*   Updated: 2023/04/29 20:58:04 by abouzanb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,13 +18,55 @@
 #include <strings.h>
 #include <math.h>
 #include <unistd.h>
+#include <fcntl.h>
 
+typedef struct s_S
+{
+	int x;
+	int space;
+	int i;
+	int a;
+	int player;
+	int wall;
+}t_l;
 typedef struct s_ray
 {
 	double length;
 	double player_pos;
 	double *rays;
 }t_ray;
+
+typedef struct s_map
+{
+	char	**map;
+	char	**temp;
+	char	**use;
+	char	*name;
+	int		big_size;
+	int		row_number;
+}t_map;
+
+typedef struct s_emelemnts
+{
+	char *ea;
+	char *so;
+	char *we;
+	char *no;
+	char *f_temp;
+	char *c_temp;
+}t_elem;
+
+typedef struct s_text_colo
+{
+	void *ea;
+	void *so;
+	void *we;
+	void *no;
+	int f;
+	int c;
+}t_struct;
+
+
 
 typedef struct s_data
 {
@@ -58,6 +112,15 @@ typedef struct s_data
 	t_ray *ray;
 	
 }t_data;
+
+typedef struct s_all
+{
+	t_data *data;
+	
+	t_struct *tool;
+	t_map *map;
+	t_elem *elem;
+}t_all;
 #define mapWidth 20
 #define mapHeight 20
 #define screenWidth 600
@@ -84,3 +147,7 @@ void draw_3d_wall(t_data *data, int ray_index, double distance);
 void draw_walls(t_data *data, char **map);
 void project_wall(t_data *data, int x1, int y1,int x2, int y2);
 void project_wall(t_data *data, int x1, int y1,int x2, int y2);
+char	*ft_strtrim(char *s1, char  *set);
+char	*ft_substr(char  *str, unsigned int start, size_t len);
+char	*get_next_line(int fd);
+char	*my_strtrim(char *s1, char  *set);

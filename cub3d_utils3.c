@@ -1,2 +1,413 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_utils3.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
+/*   Updated: 2023/04/29 20:58:00 by abouzanb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "includes/cub3d.h"
 
+int ft_strlen(char *s)
+{
+	int i = 0;
+	while(s && s[i])
+		i++;
+	return (i);
+}
+
+
+size_t	ft_strlcpy(char *dest, char *str, size_t size)
+{
+	size_t	x;
+	size_t	size_compare;
+
+	x = 0;
+	size_compare = 0;
+	if (size == 0)
+		return (ft_strlen(str));
+	while (str[x] != '\0' && size_compare < (size))
+	{
+		dest[x] = str[x];
+		x++;
+		size_compare++;
+	}
+	dest[x] = '\0';
+	return (ft_strlen(str));
+}
+
+void	ft_counting_map_size(t_all *all)
+{
+	int fd;
+	char *temp;
+	fd = open(all->map->name, O_RDONLY);
+	if (fd < 0)
+		exit(write(2, "Error\nSEGV: could not open the file\nMaybe the file is not existe or the permission does not allowed to open the file\n", 118));
+	temp = get_next_line(fd);
+	all->map->row_number = 0;
+	all->map->big_size = 0;
+	while (temp)
+	{
+		all->map->row_number++;
+		if (all->map->big_size < ft_strlen(temp))
+			all->map->big_size = ft_strlen(temp);
+		free(temp);
+		temp = get_next_line(fd);
+	}
+	close(fd);
+}
+
+void check_validaiton_name(char *name)
+{
+	char *temp;
+	if (name == NULL || name[0] == '\0')
+		exit(write(2, "Error\nSEGV: File name is empty or not valid", 43));
+	temp = strrchr(name, '.');
+	if (temp == NULL)
+		exit(write(2,"Error\nThe file does not containe any extansion\n",48 ));
+	if (strcmp(temp, ".cub"))
+		exit(write(2, "Error\nSEGV\nThe File doe not contain the extansion '.cub'\nplease add the '.cub'extanson to the your map file", 102));
+}
+
+void read_map(t_all  *all)
+{
+	char *temp;	
+	int fd;
+	int i;
+
+	i = 0;
+	check_validaiton_name(all->map->name);
+	ft_counting_map_size(all);
+	fd = open(all->map->name, O_RDONLY);
+	if (fd < 0)
+		exit(write(2, "Error\nCould not open the file\nMaybe the file is not existe or the permission does not allowed to open the file", 104));
+	temp = get_next_line(fd);
+	if (temp == NULL)
+		exit(write(2, "Error\nThe File \".cub\" is not containing anything\n", 50));
+	all->map->map = calloc(sizeof(char *) * (all->map->row_number + 1), 1);
+	while (temp)
+	{
+		all->map->map[i] = strdup(temp);
+		free(temp);
+		temp = get_next_line(fd);
+		i++;
+	}
+	all->map->map[i] = NULL;
+	close(fd);
+}
+
+char *return_elements(char *str)
+{
+	char *ptr;
+	int i;
+	int x;
+	x = 0;
+	i = 0;
+	if (!str)
+		return NULL;
+	while (str[i] && str[i] == ' ')
+		i++;
+	ptr  = calloc((ft_strlen(str) - i) + 1 , 1);
+	while (str[i] && str[i] != '\n')
+	{
+		ptr[x++] = str[i++];
+	}
+	ptr[x] = '\0';
+	return (ptr);    
+}
+
+void put_it(t_all *all, char *name)
+{
+	if (strncmp(name, "EA", 2) == 0)
+	{
+		if (ft_strlen(name) == 0)
+			exit(write(2, "heana", 6));
+		all->elem->ea = return_elements(name + 2);
+	}
+	if (strncmp(name, "SO", 2)==0)
+	{
+		if (ft_strlen(name) == 0)
+			exit(write(2, "heana", 6));
+		all->elem->so = return_elements(name + 2);
+	}
+	if (strncmp(name, "NO", 2)==0)
+	{
+		if (ft_strlen(name) == 0)
+			exit(write(2, "heana", 6));
+		all->elem->no = return_elements(name + 2);
+	}
+	if (strncmp(name, "WE", 2)==0)
+	{
+		if (ft_strlen(name) == 0)
+			exit(write(2, "heana", 6));
+		all->elem->we = return_elements(name + 2);
+	}
+	if (strncmp(name, "F", 1) == 0)
+	{
+		if (ft_strlen(name) == 0)
+			exit(write(2, "heana", 6));
+		all->elem->f_temp = return_elements(name + 1);
+	}
+	if (strncmp(name, "C", 1) == 0)
+	{
+		if (ft_strlen(name) == 0)
+			exit(write(2, "heana", 6));
+		all->elem->c_temp = return_elements(name + 1);
+	}
+}
+
+void ft_put_map(char *key, char *name, int *x)
+{
+	int i;
+	i = 0;
+
+
+	ft_strlcpy(key, name, ft_strlen(name));
+	free(name);
+	//free(name);
+	*x = *x + 1;
+
+}
+
+void init(char **use, t_all *all)
+{
+	int i = 0;
+	while (i < all->map->row_number)
+	{
+		use[i] = calloc(sizeof(char) *(all->map->big_size + 1), 1);
+		i++;
+	}
+}
+int all_is_space(char *s)
+{
+	int i;
+	i =0;
+	while (s[i])
+	{
+		if (s[i] != ' ' && s[i] != '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void put_them_in_the_place(t_all *all)
+{
+	int elements;
+	int i;
+	int x;
+	int a;
+	int ok;
+	ok = 0;
+	x = 0;
+
+	a = 0;
+	elements = 0;
+	all->elem = calloc(sizeof(t_elem), 1);
+	all->map->use = calloc(sizeof(char *) * (1 + all->map->row_number), 1);
+	all->map->use[all->map->row_number] = NULL;
+	init(all->map->use, all);
+	i = 0;
+	while (all->map->map[i])
+	{
+		if (elements < 6)
+		{
+			if (all->map->map[i][0] == '\n')
+				i++;
+			else 
+			{
+				put_it(all, all->map->map[i]);
+				elements++;
+				i++;
+			}
+		}
+		else if (all->map->map[i][0] == '\n' && x == 0)
+		{
+			i++;
+		}
+		else
+		{
+			if (ok == 0 && (all->map->map[i][0] == '\n' || all_is_space(all->map->map[i]) == 0))
+			{
+				i++;
+			}
+			else
+			{
+				ft_put_map(all->map->use[a], all->map->map[i], &a);
+				x = 1;
+				i++;
+				ok = 1;
+			}
+		}
+	}
+	all->map->use[a] = NULL;
+	if ( !all->elem->ea  || !all->elem->we  || !all->elem->c_temp  ||!all->elem->f_temp  ||!all->elem->no  ||!all->elem->so)
+	    exit(write(2,  "Some elements of the map is not valid\nOr they are not puted in their right place\nPleasee make sure the everything is in its place\n", 130));
+
+
+}
+void check_textures(t_all *all)
+{
+	int i;
+	all->tool = calloc(sizeof(t_struct), 1);
+	all->tool->ea = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->ea, &i, &i);
+	all->tool->no = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->no, &i, &i);
+	all->tool->we = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->we, &i, &i);
+	all->tool->so = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->so, &i, &i);
+	if (!all->tool->ea || !all->tool->no || !all->tool->we || !all->tool->so)
+		exit(write(2, "Oops!\nSomething does not wotk as expected\nMaybe the texteurs are not valid or they are not exis\nOr their contant is not correct\nPlease make sure that everyhting is correct\nThank you", 180));
+}
+// int count_map(char **map)
+// {
+// 	int i;
+// 	int a;
+
+// 	i = 0;
+// 	a = 0;
+// 	while (map[i])
+// 	{
+// 		if (map[i][0] == '\0')
+// 			i++;
+// 		else {
+// 			i++;
+// 			a++;
+// 		}
+// 	}
+// 	if (a < 2)
+// 		exit(write(2,"Oh! Oh! Serieously? is there any map with that size\n", 53));
+// 	return (i);
+
+// }
+void check_ele(char **str)
+{
+	t_l *l;
+
+	l = calloc(sizeof(t_l), 1);
+	while (str[l->a])
+	{
+		l->i = 0;
+		while (str[l->a][l->i])
+		{
+			if (str[l->a][l->i] == 'N' || str[l->a][l->i] == 'S' || str[l->a][l->i] == 'W' || str[l->a][l->i] == 'E')
+				l->player++;
+			else if (str[l->a][l->i] == '1')
+				l->wall++;
+			else if (str[l->a][l->i] == '0')
+					l->space++;	
+			else if (str[l->a][l->i] == ' ' || str[l->a][l->i] == '\n')
+			{
+				l->i++;
+				continue;
+			}
+			else
+			{
+				exit(write(2, "Error\nA character is not valid\n", 32));
+			}
+			l->i++;
+		}
+		
+		l->a++;
+	}
+	if (l->player != 1 || l->wall == 0 || l->space == 0)
+		exit(write(2,"Error\nMmmmm! there is a problem in characters\n", 46));
+	free(l);
+}
+
+void my_flood_fill(char **map)
+{
+	int i;
+	int x;
+
+	i = 1;
+	x = 0;
+
+	while (map[i + 1])
+	{
+		x = 0;
+		while (map[i][x])
+		{
+			if (map[i][x] == '0')
+			{
+				if (map[i + 1][x] == '\n' || map[i + 1][x] == '\0' || map[i + 1][x] == ' ')
+				{
+					exit(write(2, "Error\nThe Map is not rounded with walls\n", 40));
+				}
+				else if (map[i - 1][x] == '\0' || map[i - 1][x] == ' ')
+				{
+					exit(write(2, "Error\nThe Map is not rounded with walls444\n", 44));
+				
+				}
+				else if (map[i][x - 1] == '\n' || map[i][x - 1] == '\0' || map[i][x - 1] == ' ')
+					exit(write(2, "Error\nThe Map is not rounded with walls\n", 40));
+ 				else if (map[i][x + 1] == '\n' || map[i][x + 1] == '\0' || map[i][x + 1] == ' ')
+					exit(write(2, "Error\nThe Map is not rounded with walls\n", 40));		
+			}
+			x++;
+		}
+		i++;
+	}
+	x = 0;
+	while (map[i])
+	{
+		if (map[i][x] != '1' && map[i][x] != ' ' && map[x][i] != '\n')
+		{
+			printf("{%s}\n",map[i]);
+			exit(write(2, "Error\nthe map is not closed with the walls \n", 44));
+		}
+		i++;
+	}
+}
+
+void check_map(char **map)
+{
+	int i;
+	int y;
+
+	i = 0;
+	y = 1;
+	//count_map(map);
+	check_ele(map);
+	while (map[0][i])
+	{
+		if (map[0][i] != '1' && map[0][i] != '\n' && map[0][i] != ' ')
+		{
+			exit(write(2, "error\nWait! wait! the wall is not closed\nPlease make sure everything is correct\n", 74));
+		}
+		i++;
+	}
+	my_flood_fill(map);
+}
+
+void is_they_valid(t_all *all)
+{
+	//check_textures(all);
+	check_map(all->map->use);
+}
+
+void ft_parsing(t_all *all, char *av)
+{
+	all->map = malloc(sizeof(t_map));
+	all->map->name = av;
+	read_map(all);
+	put_them_in_the_place(all);
+	is_they_valid(all);
+}
+int main(int ac, char **av)
+{
+	t_all all;
+	all.data = malloc(sizeof(sizeof(t_data)));
+	all.data->mlx_instance = mlx_init();
+	ft_parsing(&all, av[1]);
+	int i;
+	i = 0;
+	while (all.map->use[i])
+	{
+		printf("%s", all.map->use[i++]);
+	}
+	printf("\n%s\n%s\n%s\n%s\n%s\n%s\n", all.elem->c_temp, all.elem->ea, all.elem->we, all.elem->so, all.elem->no, all.elem->f_temp);
+}
