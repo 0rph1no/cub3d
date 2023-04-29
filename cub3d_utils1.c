@@ -20,17 +20,31 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void draw_rect(t_data *data)
 {
-    data->middle_y = data->screen_height / 2;
-	double wall_height = (64 / data->df) * 120;
+	double fstart_y;
+	double cstart_y;
+    data->middle_y = round(data->screen_height / 2);
+	double wall_height = round((64 / data->df) * 120);
 	if (wall_height > data->screen_height)
 		wall_height = data->screen_height;
 		//fprintf(stderr, "{%f---%f}\n", data->df, wall_height);
-	double start_y =  data->middle_y - (wall_height / 2);
-	double end_y = start_y + wall_height;
+	double start_y =  round(data->middle_y - (wall_height / 2));
+	double end_y = round(start_y + wall_height);
+	cstart_y = start_y;
+	fstart_y =  end_y;
+	// while(cstart_y > 0)
+	// {
+	// 	my_mlx_pixel_put(data, data->start_x, cstart_y, 0x29BDC1);
+	// 	cstart_y--;
+	// }
 	while(end_y > start_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, start_y, 0xFFFFFF);
 		start_y++;
+	}
+	while(1080 > fstart_y) // draw floor
+	{
+		my_mlx_pixel_put(data, data->start_x, fstart_y, 0xD84242);
+		fstart_y++;
 	}
 	data->start_x++;
 }
@@ -76,6 +90,7 @@ void draw_line_with_width(t_data *data, int x, int y1, int y2, int width, int co
 
 void cast_rays(t_data *data)
 {
+	double c = 0;
 	//double temp = 1920;
 	data->start_x = 0;
 	double fst_ray = data->p_angle + (data->fov / 2);
@@ -86,11 +101,14 @@ void cast_rays(t_data *data)
 	int newy;
 	//int index_ray = 1;
 	// fprintf(stderr, "{%f}", )
-	while(fst_ray >= ray_end)
+	while(fst_ray > ray_end)
 	{
 		newx = data->p_x + ((data->screen_width) * cos(turn_to_rad(fst_ray)));
-		newy = data->p_y - ((data->screen_height) * sin(turn_to_rad(fst_ray)));
+		newy = data->p_y - ( (data->screen_height) * sin(turn_to_rad(fst_ray)));
 		data->df = drawLine(data, data->p_x, data->p_y, newx, newy);
+		//fprintf(stderr, "{%f}\n", data->df);
+		c++;
+		//fprintf(stderr, "{%f}\n", data->df);
 		draw_rect(data);
 		// data->middle_x = data->screen_width / 2;
 		//double wall_width = 1;
@@ -123,7 +141,9 @@ void cast_rays(t_data *data)
 		// 	wall_x--;
    		//  }
 		fst_ray = fst_ray - (60 / data->screen_width);
+		// fst_ray = fst_ray - 0.03;
 	}
+	fprintf(stderr, "{%f}\n", c);
 	
 }
 
