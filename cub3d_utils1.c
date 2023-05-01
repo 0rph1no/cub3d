@@ -9,7 +9,6 @@ int ft_strlen(char *s)
 	return i;
 }
 
-
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -26,126 +25,78 @@ void draw_rect(t_data *data)
 	double wall_height = round((64 / data->df) * 120);
 	if (wall_height > data->screen_height)
 		wall_height = data->screen_height;
-		//fprintf(stderr, "{%f---%f}\n", data->df, wall_height);
 	double start_y =  round(data->middle_y - (wall_height / 2));
 	double end_y = round(start_y + wall_height);
 	cstart_y = start_y;
 	fstart_y =  end_y;
-	// while(cstart_y > 0)
-	// {
-	// 	my_mlx_pixel_put(data, data->start_x, cstart_y, 0x29BDC1);
-	// 	cstart_y--;
-	// }
 	while(end_y > start_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, start_y, 0xFFFFFF);
 		start_y++;
 	}
-	while(1080 > fstart_y) // draw floor
-	{
-		my_mlx_pixel_put(data, data->start_x, fstart_y, 0xD84242);
-		fstart_y++;
-	}
+	// while(1080 > fstart_y)
+	// {
+	// 	my_mlx_pixel_put(data, data->start_x, fstart_y, 0xD84242);
+	// 	fstart_y++;
+	// }
 	data->start_x++;
 }
 
-void DDA(t_data *data, int X0, int Y0, int X1, int Y1)
-{
-    // calculate dx & dy
-    int dx = X1 - X0;
-    int dy = Y1 - Y0;
- 
-    // calculate steps required for generating pixels
-    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
- 
-    // calculate increment in x & y for each steps
-    float Xinc = dx / (float)steps;
-    float Yinc = dy / (float)steps;
- 
-    // Put pixel for each step
-    float X = X0;
-    float Y = Y0;
-    for (int i = 0; i <= steps; i++) {
-        my_mlx_pixel_put(data, X, Y, 0xFFFFFF); // put pixel at (X,Y)
-        X += Xinc; // increment in x at each step
-        Y += Yinc; // increment in y at each step
-        //delay(100); // for visualization of line-
-                    // generation step by step
-    }
-}
-
-void draw_line_with_width(t_data *data, int x, int y1, int y2, int width, int color)
-{
-    // Calculate the half-width of the line
-    int half_width = width / 2;
-    
-    // Draw multiple lines next to each other to simulate the desired width
-    for (int i = 0; i <= half_width; i++) {
-        my_mlx_pixel_put(data, x+i, y1, color);
-        my_mlx_pixel_put(data, x+i, y2, color);
-    }
-	printf("fdsf\n");
-}
-
-
 void cast_rays(t_data *data)
 {
-	double c = 0;
-	//double temp = 1920;
+	int c = 0;
 	data->start_x = 0;
-	double fst_ray = data->p_angle + (data->fov / 2);
+	double fst_ray = data->p_angle + (30);
 	double ray_end = fst_ray - data->fov;
-	// //data->num_rays = 0;
-	// //fprintf(stderr,"{%f----%f---%f}\n", fst_ray, ray_end, data->p_x);
 	int newx;
 	int newy;
-	//int index_ray = 1;
-	// fprintf(stderr, "{%f}", )
 	while(fst_ray > ray_end)
 	{
+		data->fstrayy = fst_ray;
 		newx = data->p_x + ((data->screen_width) * cos(turn_to_rad(fst_ray)));
 		newy = data->p_y - ( (data->screen_height) * sin(turn_to_rad(fst_ray)));
 		data->df = drawLine(data, data->p_x, data->p_y, newx, newy);
-		//fprintf(stderr, "{%f}\n", data->df);
 		c++;
-		//fprintf(stderr, "{%f}\n", data->df);
+		data->df = data->df * cos(turn_to_rad(fst_ray - data->p_angle));
 		draw_rect(data);
-		// data->middle_x = data->screen_width / 2;
-		//double wall_width = 1;
-		//fprintf(stderr, "{%f---%f---%f---%f}\n", data->middle_y, start_y, data->screen_height, data->start_x);
-		//double end_x = data->start_x + wall_width;
-		//fprintf(stderr, "%f----%f---", start, end);
-		//double temp = data->middle_x;
-		// while(end_x > data->start_x)
-		// {
-		// }
-		// start_x+=8;
-		// while(start_x < data->middle_x + 100)
-		// {
-		// 	my_mlx_pixel_put(data, start_x, start_y, 0xFFFFFF);
-		// 	start_x++;
-		// }
-		
-		//fprintf(stderr, "player pos %f---%f----%f\n", data->p_x, data->p_y, data->df);
-		// double wall_pos_x = data->df + data->p_x;
-		// double wall_pos_y = data->df - data->p_y;
-		// double wall_height = data->screen_height - data->df;
-		
-		// double wall_x = WALL_WIDTH;
-		// data->wall_height = (data->screen_height) / data->df;
-		// //fprintf(stderr,"wall heigh: %f---%f\n", data->wall_height, data->df);
-		// if (data->wall_height > data->screen_height)
-		// 	data->wall_height = data->screen_height;
-		//  for (double y = 0; y < data->wall_height; y++) {
-        // 	my_mlx_pixel_put(data, wall_x, y, 0xFFFFFF);
-		// 	wall_x--;
-   		//  }
 		fst_ray = fst_ray - (60 / data->screen_width);
-		// fst_ray = fst_ray - 0.03;
 	}
-	fprintf(stderr, "{%f}\n", c);
-	
+	fprintf(stderr, "{%f}\n", data->p_angle);
 }
+
+// void cast_rays(t_data *data)
+// {
+// 	data->start_x = 0;
+// 	double fst_ray = data->p_angle + (data->fov / 2);
+// 	double ray_end = fst_ray - data->fov;
+// 	double newx;
+// 	double newy;
+// 	double nin_dif_x;
+// 	double nin_dif_y;
+// 	double diff;
+// 	double end_dif_x;
+// 	double end_dif_y;
+// 	double end_diff;
+// 	//double temp;
+// 	nin_dif_x = data->p_x + ((data->screen_width) * cos(turn_to_rad(data->p_angle)));
+// 	nin_dif_y = data->p_y - ( (data->screen_height) * sin(turn_to_rad(data->p_angle)));
+// 	diff = drawLine(data, data->p_x, data->p_y, nin_dif_x, nin_dif_y);
+// 	end_dif_x = data->p_x + ((data->screen_width) * cos(turn_to_rad(ray_end)));
+// 	end_dif_y = data->p_y - ( (data->screen_height) * sin(turn_to_rad(ray_end)));
+// 	end_diff = drawLine(data, data->p_x, data->p_y, end_dif_x, end_dif_y);
+// 	while(fst_ray >= ray_end)
+// 	{
+// 		data->fstrayy = fst_ray;
+// 		newx = data->p_x + ((data->screen_width) * cos(turn_to_rad(fst_ray)));
+// 		newy = data->p_y - ( (data->screen_height) * sin(turn_to_rad(fst_ray)));
+// 		data->df = drawLine(data, data->p_x, data->p_y, newx, newy);
+// 		data->df =  end_diff * cos(diff / end_diff);
+// 		draw_rect(data);
+// 		fst_ray = fst_ray - (64 / data->screen_width);
+// 	}	
+// }
+
+
 
 int get_map_height(char **map)
 {

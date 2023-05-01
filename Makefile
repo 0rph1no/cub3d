@@ -9,7 +9,7 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 	cc -fsanitize=address -g3 -lmlx -framework OpenGL -framework AppKit $(OBJS) -o $(NAME)
 $(OBJS) : $(SRCS)
-	cc -Wall -Wextra -Werror $(SRCS) -c
+	cc -Wall -Wextra   $(SRCS) -c
 
 clean: 
 	rm -rf $(OBJS)
@@ -20,4 +20,4 @@ fclean : clean
 re: fclean all
 
 run:
-	cc -fsanitize=address -g3 -lmlx -framework OpenGL -framework AppKit cub3d_utils3.c get_next_line.c get_next_line_utils.c cub3d_utils4.c -o anas
+	cc  -g3 -lmlx -framework OpenGL -framework AppKit cub3d_utils3.c get_next_line.c get_next_line_utils.c cub3d_utils4.c -o anas

@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/04/29 20:58:04 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/01 00:49:28 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_text_colo
 
 typedef struct s_data
 {
+	double fstrayy;
 	void *mlx_instance;
 	void *mlx_window;
 	void *mlx_bgimage;
@@ -151,3 +152,4 @@ char	*ft_strtrim(char *s1, char  *set);
 char	*ft_substr(char  *str, unsigned int start, size_t len);
 char	*get_next_line(int fd);
 char	*my_strtrim(char *s1, char  *set);
+void cast(t_data *data);
