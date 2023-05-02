@@ -46,8 +46,9 @@ void cast_rays(t_data *data)
 {
 	int c = 0;
 	data->start_x = 0;
-	double fst_ray = data->p_angle + (30);
+	double fst_ray = data->p_angle + (data->fov / 2);
 	double ray_end = fst_ray - data->fov;
+	//fprintf(stderr, "{%f----%f}\n", fst_ray, ray_end);
 	int newx;
 	int newy;
 	while(fst_ray > ray_end)
@@ -61,7 +62,7 @@ void cast_rays(t_data *data)
 		draw_rect(data);
 		fst_ray = fst_ray - (60 / data->screen_width);
 	}
-	fprintf(stderr, "{%f}\n", data->p_angle);
+	//fprintf(stderr, "{%f}\n", data->p_angle);
 }
 
 // void cast_rays(t_data *data)

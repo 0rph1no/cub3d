@@ -10,20 +10,29 @@ double drawLine(t_data *data, double x1, double y1, double x2, double y2)
 {
     double dx = fabs(x2 - x1);
     double dy = fabs(y2 - y1);
-    double sx = (x1 < x2) ?  : -cos(data->p_angle) ;
-    double sy = (y1 < y2) ? cos(data->p_angle)   : -cos(data->p_angle)  ;
+    double sx = (x1 < x2) ?  cos(data->fstrayy) : cos(data->fstrayy)*-1 ;
+    double sy = (y1 < y2) ? sin(data->fstrayy)   : sin(data->fstrayy)*-1  ;
     double err = dx - dy;
+	double e2;
 //	double ca;
  
     while (1) {
 		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
 		{
-			//ca = data->p_angle - data->fstrayy;	
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
 		my_mlx_pixel_put(data, x1, y1, 0x80FFFF);
+		// e2 = 2 * err;
+        // if (e2 > -dy) {
+        //     err -= dy;
+        //     x1 += sx;
+        // }
+        // if (e2 < dx) {
+        //     err += dx;
+        //     y1 += sy;
+        // }
 		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
-		y1 += sin(turn_to_rad(data->fstrayy)) / 16;
+		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
 
     }
 	return -1;
