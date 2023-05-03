@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/01 00:49:28 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:03:55 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,3 +153,5 @@ char	*ft_substr(char  *str, unsigned int start, size_t len);
 char	*get_next_line(int fd);
 char	*my_strtrim(char *s1, char  *set);
 void cast(t_data *data);
+int	key_hook(int keycode, t_data *data);
+int do_all(int ac, char **av);
