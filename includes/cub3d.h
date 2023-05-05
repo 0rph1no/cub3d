@@ -6,7 +6,7 @@
 /*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/03 17:03:55 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:03:12 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ typedef struct s_data
 	void *mlx_window;
 	void *mlx_bgimage;
 	char *mlx_bgimage_addr;
+	void *text_image;
+	void *text_image_addr;
+	int text_width;
+	int text_height;
 	double fov;
 	double plane_dim_x;
 	double plane_dim_y;
@@ -88,6 +92,9 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		bpp;
+	int		text_line_length;
+	int		text_endian;
 	int pcube_center_x;
 	int pcube_center_y;
 	int	map_width;
@@ -110,6 +117,7 @@ typedef struct s_data
 	double middle_x;
 	double middle_y;
 	double start_x;
+	
 	t_ray *ray;
 	
 }t_data;
@@ -134,7 +142,7 @@ typedef struct s_all
 #define WALL_WIDTH 8
 
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstart);
 int		get_map_height(char **map);
 int		ft_strlen(char *s);
 void	fill_map(char **map, t_data *data);
@@ -142,7 +150,7 @@ int		get_player_pos(char **map, int flag);
 int		detect_colation(char **map, int x, int y, double angle);
 void	do_dda(t_data *data, int x1, int y1, int x2, int y2);
 double	turn_to_rad(double deg);
-double	drawLine(t_data *data, double x1, double y1, double x2, double y2);
+double	drawLine(t_data *data, double x1, double y1);
 void	cast_rays(t_data *data);
 void draw_3d_wall(t_data *data, int ray_index, double distance);
 void draw_walls(t_data *data, char **map);
@@ -155,3 +163,4 @@ char	*my_strtrim(char *s1, char  *set);
 void cast(t_data *data);
 int	key_hook(int keycode, t_data *data);
 int do_all(int ac, char **av);
+void	draw_pixels(t_data *data);

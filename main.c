@@ -6,34 +6,24 @@ void put_player_cube(t_data *data)
 	mlx_pixel_put(data->mlx_instance, data->mlx_window, data->i, data->j, 0X800000);
 }
 
-double drawLine(t_data *data, double x1, double y1, double x2, double y2)
+double drawLine(t_data *data, double x1, double y1)
 {
-    double dx = fabs(x2 - x1);
-    double dy = fabs(y2 - y1);
-    double sx = (x1 < x2) ?  cos(data->fstrayy) : cos(data->fstrayy)*-1 ;
-    double sy = (y1 < y2) ? sin(data->fstrayy)   : sin(data->fstrayy)*-1  ;
-    double err = dx - dy;
-	double e2;
 //	double ca;
  
     while (1) {
+		//my_mlx_pixel_put(data, x1, y1, 0x80FFFF, 1, 0);
+		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
 		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
 		{
+			//fprintf(stderr, "x toucged\n");
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
-		my_mlx_pixel_put(data, x1, y1, 0x80FFFF);
-		// e2 = 2 * err;
-        // if (e2 > -dy) {
-        //     err -= dy;
-        //     x1 += sx;
-        // }
-        // if (e2 < dx) {
-        //     err += dx;
-        //     y1 += sy;
-        // }
-		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
 		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
-
+		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
+		{
+			//fprintf(stderr, "y toucged\n");
+			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
+		}
     }
 	return -1;
 }
@@ -41,65 +31,65 @@ double drawLine(t_data *data, double x1, double y1, double x2, double y2)
 
 void	draw_pixels(t_data *data)
 {
-	int i = 0;
-	int j = 0;
-	int x = 0;
-	int y = 0;
-		while(data->map[i])
-		{
-			while(data->map[i][j] && data->map[i][j] != '\n')
-			{
-				if (data->map[i][j] == '1')
-				{
-					x = 0;
-					y = 0;
-					while(y < 64 / minimap_scale)
-					{
-						while(x < 64 / minimap_scale)
-						{
-							my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xF629290);
-							x++;
-						}
-						y++;
-						x = 0;
-					}
-				}
-				else if (data->map[i][j] == '0')
-				{
-					x = 0;
-					y = 0;
-					while(y < 64 / minimap_scale)
-					{
-						while(x < 64 / minimap_scale)
-						{
-							my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3);
-							x++;
-						}
-						y++;
-						x = 0;
-					}
-				}
-				else if (data->map[i][j] == 'N')
-				{
-					x = 0;
-					y = 0;
-					while(y < 64 / minimap_scale)
-					{
-						while(x < 64 / minimap_scale)
-						{
-							my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3);
-							x++;
-						}
-						y++;
-						x = 0;
-					}
-				}
-				my_mlx_pixel_put(data,data->p_x,  data->p_y, 0x00FF00);
-				j++;
-			}
-			i++;
-			j = 0;
-		}
+	// int i = 0;
+	// int j = 0;
+	// int x = 0;
+	// int y = 0;
+		// while(data->map[i])
+		// {
+		// 	while(data->map[i][j] && data->map[i][j] != '\n')
+		// 	{
+		// 		if (data->map[i][j] == '1')
+		// 		{
+		// 			x = 0;
+		// 			y = 0;
+		// 			while(y < 64 / minimap_scale)
+		// 			{
+		// 				while(x < 64 / minimap_scale)
+		// 				{
+		// 					my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xF629290, 1, 0);
+		// 					x++;
+		// 				}
+		// 				y++;
+		// 				x = 0;
+		// 			}
+		// 		}
+		// 		else if (data->map[i][j] == '0')
+		// 		{
+		// 			x = 0;
+		// 			y = 0;
+		// 			while(y < 64 / minimap_scale)
+		// 			{
+		// 				while(x < 64 / minimap_scale)
+		// 				{
+		// 					my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3, 1, 0);
+		// 					x++;
+		// 				}
+		// 				y++;
+		// 				x = 0;
+		// 			}
+		// 		}
+		// 		else if (data->map[i][j] == 'N')
+		// 		{
+		// 			x = 0;
+		// 			y = 0;
+		// 			while(y < 64 / minimap_scale)
+		// 			{
+		// 				while(x < 64 / minimap_scale)
+		// 				{
+		// 					my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3, 1, 0);
+		// 					x++;
+		// 				}
+		// 				y++;
+		// 				x = 0;
+		// 			}
+		// 		}
+		// 		my_mlx_pixel_put(data,data->p_x,  data->p_y, 0x00FF00, 1, 0);
+		// 		j++;
+		// 	}
+		// 	i++;
+		// 	j = 0;
+		// }
 
 
 	cast_rays(data);

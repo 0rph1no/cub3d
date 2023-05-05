@@ -27,7 +27,6 @@ int detect_colation(char **map, int py, int px, double angle)
 	(void)angle;
 	int newx;
 	int newy;
-	int i = 0;
 
 	newx = px / (64 / minimap_scale);
 	newy = py / (64 / minimap_scale);
@@ -72,18 +71,25 @@ int do_all(int ac, char **av)
 	data->p_rot_speed = 15;
 	data->i = 400;
 	data->color = 50;
-	data->screen_width = 1920;
-	data->screen_height = 1080;
+	data->screen_width = 1200;
+	data->screen_height = 1000;
 	data->dtp = data->plane_center_dim / tan(turn_to_rad(30));
 	assert(data->mlx_instance != NULL);
 	data->mlx_window = mlx_new_window(data->mlx_instance, data->screen_width, data->screen_height, "charaf windows");
 	assert(data->mlx_window != NULL);
 	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
 	assert(data->mlx_bgimage != NULL);
-	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian);
-	assert(data->mlx_bgimage != NULL);
+	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian); 
+	assert(data->mlx_bgimage_addr != NULL);
+	data->text_image = mlx_xpm_file_to_image(data->mlx_instance, "textures/text_no.xpm", &data->text_width, &data->text_height);
+	data->text_image_addr = mlx_get_data_addr(data->text_image, &data->bpp, &data->text_line_length, &data->text_endian);
 	data->j = 50;
 	draw_pixels(data);
+	//fprintf(stderr, "{%p}----{%p}---{%d}---{%d}\n ", data->mlx_bgimage_addr, data->mlx_bgimage_addr + 7680,data->line_length, data->bits_per_pixel);
+	/*
+		data.bpp => num of bits needed to draw a pixel with color // 32bit== 4byte
+		data.linelength => num of bytes needed to store one line of the image in memory which will equal the screen width * data.bpp/8
+	*/
 	mlx_put_image_to_window(data->mlx_instance, data->mlx_window, data->mlx_bgimage, 0, 0);
 	mlx_hook(data->mlx_window, 2, 1L << 0, key_hook, data);
 	mlx_loop(data->mlx_instance);
