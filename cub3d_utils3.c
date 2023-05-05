@@ -6,10 +6,9 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/04/30 13:24:17 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/05 17:37:29 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "includes/cub3d.h"
 
@@ -20,7 +19,6 @@ int ft_strlen(char *s)
 		i++;
 	return (i);
 }
-
 
 size_t	ft_strlcpy(char *dest, char *str, size_t size)
 {
@@ -236,13 +234,13 @@ void put_them_in_the_place(t_all *all)
 	all->map->use[a] = NULL;
 	if ( !all->elem->ea  || !all->elem->we  || !all->elem->c_temp  ||!all->elem->f_temp  ||!all->elem->no  ||!all->elem->so)
 	    exit(write(2,  "Error\nSome elements of the map is not valid\nOr they are not puted in their right place\nPleasee make sure the everything is in its place\n", 130));
-
-
 }
+
 void check_textures(t_all *all)
 {
 	int i;
 	all->tool = calloc(sizeof(t_struct), 1);
+	all->data->mlx_instance = mlx_init();
 	all->tool->ea = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->ea, &i, &i);
 	all->tool->no = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->no, &i, &i);
 	all->tool->we = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->we, &i, &i);
@@ -250,6 +248,7 @@ void check_textures(t_all *all)
 	if (!all->tool->ea || !all->tool->no || !all->tool->we || !all->tool->so)
 		exit(write(2, "Error\nOops!\nSomething does not wotk as expected\nMaybe the texteurs are not valid or they are not exis\nOr their contant is not correct\nPlease make sure that everyhting is correct\nThank you", 180));
 }
+
 // int count_map(char **map)
 // {
 // 	int i;
@@ -270,6 +269,11 @@ void check_textures(t_all *all)
 // 		exit(write(2,"Oh! Oh! Serieously? is there any map with that size\n", 53));
 // 	return (i);
 
+// }
+
+// void check_main(t_all *all)
+// {
+	  
 // }
 void check_ele(char **str)
 {
@@ -293,9 +297,7 @@ void check_ele(char **str)
 				continue;
 			}
 			else
-			{
 				exit(write(2, "Error\nA character is not valid\n", 32));
-			}
 			l->i++;
 		}
 		
@@ -331,7 +333,7 @@ void my_flood_fill(char **map)
 		x = 0;
 		while (map[i][x])
 		{
-			if (map[i][x] == '0')
+			if (map[i][x] == '0' || map[i][x] == 'W' || map[i][x] == 'E' || map[i][x] == 'S' || map[i][x] == 'N')
 				ft_help_my_flood_fill(map, i, x);
 			x++;
 		}
@@ -358,18 +360,27 @@ void check_map(char **map)
 	while (map[0][i])
 	{
 		if (map[0][i] != '1' && map[0][i] != '\n' && map[0][i] != ' ')
-		{
-			exit(write(2, "error\nWait! wait! the wall is not closed\nPlease make sure everything is correct\n", 74));
-		}
+			exit(write(2, "error\nWait! wait! the wall is not closed\nPlease make sure everything is correct\n", 81));
 		i++;
 	}
 	my_flood_fill(map);
 }
 
+// void check_rgb_is_valid(t_all *all)
+// {
+
+// }
+
+// void handle_rgbt(t_all *all)
+// {
+// 	check_rgb_is_valid(all->elem->c_temp);
+// }
 void is_they_valid(t_all *all)
 {
 	//check_textures(all);
 	check_map(all->map->use);
+//	handle_rgbt(all);
+	all->data->map = all->map->use;
 }
 
 void ft_parsing(t_all *all, char *av)
@@ -379,23 +390,4 @@ void ft_parsing(t_all *all, char *av)
 	read_map(all);
 	put_them_in_the_place(all);
 	is_they_valid(all);
-}
-int main(int ac, char **av)
-{
-	t_all all;
-	all.data = malloc(sizeof(sizeof(t_data)));
-	all.data->mlx_instance = mlx_init();
-	ft_parsing(&all, av[1]);
-	int i;
-	i = 0;
-	while (all.map->use[i])
-	{
-		printf("%s", all.map->use[i++]);
-	}
-	printf("\n%s\n%s\n%s\n%s\n%s\n%s\n", all.elem->c_temp, all.elem->ea, all.elem->we, all.elem->so, all.elem->no, all.elem->f_temp);
-	while (1)
-	{
-		/* code */
-	}
-	
 }

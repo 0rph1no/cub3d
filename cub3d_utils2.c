@@ -44,54 +44,40 @@ double turn_to_rad(double deg)
 	return (deg * (PI / 180.0));
 }
 
-int do_all(int ac, char **av)
+int ft_execution(t_all *all)
 {
-	(void)ac;
-	(void)av;
-	t_data *data;
-	data = (t_data*)malloc(sizeof(t_data));
-	data->map_file = open(av[1], O_RDONLY, 0677);
-	if (data->map_file == -1)
-	{
-		free(data);
-		return (1);
-	}
-	data->map = malloc(sizeof(char *) * 10);
-	fill_map(data->map, data);
-	data->map_width = ft_strlen(data->map[0]);
-	data->map_height = get_map_height(data->map);
-	data->p_x = get_player_pos(data->map, 0) * (66 / minimap_scale);
-	data->p_y = get_player_pos(data->map, 1) * (66 / minimap_scale);
-	data->mlx_instance = mlx_init();
-	data->fov = 60;
-	data->plane_dim_x = 320;
-	data->plane_dim_y = 120;
-	data->p_angle = 90;
-	data->p_speed = 20;
-	data->p_rot_speed = 15;
-	data->i = 400;
-	data->color = 50;
-	data->screen_width = 1200;
-	data->screen_height = 1000;
-	data->dtp = data->plane_center_dim / tan(turn_to_rad(30));
-	assert(data->mlx_instance != NULL);
-	data->mlx_window = mlx_new_window(data->mlx_instance, data->screen_width, data->screen_height, "charaf windows");
-	assert(data->mlx_window != NULL);
-	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
-	assert(data->mlx_bgimage != NULL);
-	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian); 
-	assert(data->mlx_bgimage_addr != NULL);
-	data->text_image = mlx_xpm_file_to_image(data->mlx_instance, "textures/text_no.xpm", &data->text_width, &data->text_height);
-	data->text_image_addr = mlx_get_data_addr(data->text_image, &data->bpp, &data->text_line_length, &data->text_endian);
-	data->j = 50;
-	draw_pixels(data);
+	all->data->map_width = ft_strlen(all->data->map[0]);
+	//fprintf(stderr, "sdfdsfsfsf\n");
+	all->data->map_height = get_map_height(all->data->map);
+	all->data->p_x = get_player_pos(all->data->map, 0) * (66 / minimap_scale);
+	all->data->p_y = get_player_pos(all->data->map, 1) * (66 / minimap_scale);
+	all->data->mlx_instance = mlx_init();
+	all->data->fov = 60;
+	all->data->plane_dim_x = 320;
+	all->data->plane_dim_y = 120;
+	all->data->p_angle = 90;
+	all->data->p_speed = 20;
+	all->data->p_rot_speed = 15;
+	all->data->i = 400;
+	all->data->color = 50;
+	all->data->screen_width = 1200;
+	all->data->screen_height = 1000;
+	all->data->dtp = all->data->plane_center_dim / tan(turn_to_rad(30));
+	all->data->mlx_window = mlx_new_window(all->data->mlx_instance, all->data->screen_width, all->data->screen_height, "charaf windows");
+	all->data->mlx_bgimage = mlx_new_image(all->data->mlx_instance, all->data->screen_width, all->data->screen_height);
+	all->data->mlx_bgimage_addr = mlx_get_data_addr(all->data->mlx_bgimage, &all->data->bits_per_pixel, &all->data->line_length, &all->data->endian); 
+	all->data->text_image = mlx_xpm_file_to_image(all->data->mlx_instance, "textures/text_no.xpm", &all->data->text_width, &all->data->text_height);
+	all->data->text_image_addr = mlx_get_data_addr(all->data->text_image, &all->data->bpp, &all->data->text_line_length, &all->data->text_endian);
+	all->data->j = 50;
+	draw_pixels(all->data);
+	mlx_put_image_to_window(all->data->mlx_instance, all->data->mlx_window, all->data->mlx_bgimage, 0, 0);
+	mlx_hook(all->data->mlx_window, 2, 1L << 0, key_hook, all);
+	mlx_loop(all->data->mlx_instance);
+	return 0;
+}
+
 	//fprintf(stderr, "{%p}----{%p}---{%d}---{%d}\n ", data->mlx_bgimage_addr, data->mlx_bgimage_addr + 7680,data->line_length, data->bits_per_pixel);
 	/*
 		data.bpp => num of bits needed to draw a pixel with color // 32bit== 4byte
 		data.linelength => num of bytes needed to store one line of the image in memory which will equal the screen width * data.bpp/8
 	*/
-	mlx_put_image_to_window(data->mlx_instance, data->mlx_window, data->mlx_bgimage, 0, 0);
-	mlx_hook(data->mlx_window, 2, 1L << 0, key_hook, data);
-	mlx_loop(data->mlx_instance);
-	return 0;
-}

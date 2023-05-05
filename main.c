@@ -96,8 +96,10 @@ void	draw_pixels(t_data *data)
 	mlx_put_image_to_window(data->mlx_instance, data->mlx_window, data->mlx_bgimage, 0, 0);
 }
 
-int	key_hook(int keycode, t_data *data)
+int	key_hook(int keycode, t_all *all)
 {
+	t_data *data;
+	data = all->data;
 	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
 	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian);
 	if (keycode == 123)
@@ -206,5 +208,13 @@ int	key_hook(int keycode, t_data *data)
 
 int main(int ac, char **av)
 {
-	do_all(ac, av);
+	t_all all;
+	all.data = malloc(sizeof(sizeof(t_data)));
+
+	ft_parsing(&all, av[1]);
+	//printf("sdsdfsdfdsfdsf%s\n", all.map->use[0]);
+	ft_execution(&all);
+	int i;
+	i = 0;
+	return ac;
 }

@@ -1,13 +1,13 @@
 #include "includes/cub3d.h"
 #include "includes/get_next_line.h"
 
-int ft_strlen(char *s)
-{
-	int i = 0;
-	while(s && s[i])
-		i++;
-	return i;
-}
+// int ft_strlen(char *s)
+// {
+// 	int i = 0;
+// 	while(s && s[i])
+// 		i++;
+// 	return i;
+// }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstart)
 {
@@ -40,7 +40,6 @@ void draw_rect(t_data *data)
 	cstart_y = start_y;
 	fstart_y =  end_y;
 	steps = data->text_height / data->wall_height;
-	//fprintf(stderr, "{%d---%f---%d}\n", steps, wall_height, data->text_height);
 	while(end_y > start_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, start_y, 0xFFFFFF, 0, wall_start);
