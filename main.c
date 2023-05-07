@@ -12,18 +12,15 @@ double drawLine(t_data *data, double x1, double y1)
  
     while (1) {
 		//my_mlx_pixel_put(data, x1, y1, 0x80FFFF, 1, 0);
-		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
-		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
-		{
-			//fprintf(stderr, "x toucged\n");
-			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
-		}
-		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
 		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
 		{
 			//fprintf(stderr, "y toucged\n");
+			//fprintf(stderr, "y touched---%f\n", y1);
+			data->inter_y = x1+y1;
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
+		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
+		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
     }
 	return -1;
 }
@@ -35,61 +32,61 @@ void	draw_pixels(t_data *data)
 	// int j = 0;
 	// int x = 0;
 	// int y = 0;
-		// while(data->map[i])
-		// {
-		// 	while(data->map[i][j] && data->map[i][j] != '\n')
-		// 	{
-		// 		if (data->map[i][j] == '1')
-		// 		{
-		// 			x = 0;
-		// 			y = 0;
-		// 			while(y < 64 / minimap_scale)
-		// 			{
-		// 				while(x < 64 / minimap_scale)
-		// 				{
-		// 					my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xF629290, 1, 0);
-		// 					x++;
-		// 				}
-		// 				y++;
-		// 				x = 0;
-		// 			}
-		// 		}
-		// 		else if (data->map[i][j] == '0')
-		// 		{
-		// 			x = 0;
-		// 			y = 0;
-		// 			while(y < 64 / minimap_scale)
-		// 			{
-		// 				while(x < 64 / minimap_scale)
-		// 				{
-		// 					my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3, 1, 0);
-		// 					x++;
-		// 				}
-		// 				y++;
-		// 				x = 0;
-		// 			}
-		// 		}
-		// 		else if (data->map[i][j] == 'N')
-		// 		{
-		// 			x = 0;
-		// 			y = 0;
-		// 			while(y < 64 / minimap_scale)
-		// 			{
-		// 				while(x < 64 / minimap_scale)
-		// 				{
-		// 					my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3, 1, 0);
-		// 					x++;
-		// 				}
-		// 				y++;
-		// 				x = 0;
-		// 			}
-		// 		}
-		// 		my_mlx_pixel_put(data,data->p_x,  data->p_y, 0x00FF00, 1, 0);
-		// 		j++;
-		// 	}
-		// 	i++;
-		// 	j = 0;
-		// }
+	// 	while(data->map[i])
+	// 	{
+	// 		while(data->map[i][j] && data->map[i][j] != '\n')
+	// 		{
+	// 			if (data->map[i][j] == '1')
+	// 			{
+	// 				x = 0;
+	// 				y = 0;
+	// 				while(y < 64 / minimap_scale)
+	// 				{
+	// 					while(x < 64 / minimap_scale)
+	// 					{
+	// 						my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xF629290, 1, 0);
+	// 						x++;
+	// 					}
+	// 					y++;
+	// 					x = 0;
+	// 				}
+	// 			}
+	// 			else if (data->map[i][j] == '0')
+	// 			{
+	// 				x = 0;
+	// 				y = 0;
+	// 				while(y < 64 / minimap_scale)
+	// 				{
+	// 					while(x < 64 / minimap_scale)
+	// 					{
+	// 						my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3, 1, 0);
+	// 						x++;
+	// 					}
+	// 					y++;
+	// 					x = 0;
+	// 				}
+	// 			}
+	// 			else if (data->map[i][j] == 'N')
+	// 			{
+	// 				x = 0;
+	// 				y = 0;
+	// 				while(y < 64 / minimap_scale)
+	// 				{
+	// 					while(x < 64 / minimap_scale)
+	// 					{
+	// 						my_mlx_pixel_put(data,(j * 64 / minimap_scale) + y ,  (i * 64 / minimap_scale) + x, 0xe3e3e3, 1, 0);
+	// 						x++;
+	// 					}
+	// 					y++;
+	// 					x = 0;
+	// 				}
+	// 			}
+	// 			my_mlx_pixel_put(data,data->p_x,  data->p_y, 0x00FF00, 1, 0);
+	// 			j++;
+	// 		}
+	// 		i++;
+	// 		j = 0;
+	// 	}
 
 
 	cast_rays(data);

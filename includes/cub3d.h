@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/05 17:27:25 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:42:04 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ typedef struct s_data
 	double middle_x;
 	double middle_y;
 	double start_x;
+	double inter_x;
+	double inter_y;
+	char vision;
 	
 	t_ray *ray;
 	
@@ -146,7 +149,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 int		get_map_height(char **map);
 int		ft_strlen(char *s);
 void	fill_map(char **map, t_data *data);
-int		get_player_pos(char **map, int flag);
+int		get_player_pos(char **map, int flag, t_data *data);
 int		detect_colation(char **map, int x, int y, double angle);
 void	do_dda(t_data *data, int x1, int y1, int x2, int y2);
 double	turn_to_rad(double deg);
@@ -161,7 +164,9 @@ char	*ft_substr(char  *str, unsigned int start, size_t len);
 char	*get_next_line(int fd);
 char	*my_strtrim(char *s1, char  *set);
 void cast(t_data *data);
-int	key_hook(int keycode, t_all *all);
-int ft_execution(t_all *all);
+int do_all(int ac, char **av);
 void	draw_pixels(t_data *data);
+void set_vision(t_data *data);
+int ft_execution(t_all *all);
 void ft_parsing(t_all *all, char *av);
+int	key_hook(int keycode, t_all *all);

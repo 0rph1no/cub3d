@@ -1,13 +1,13 @@
 #include "includes/cub3d.h"
 #include "includes/get_next_line.h"
 
-// int ft_strlen(char *s)
-// {
-// 	int i = 0;
-// 	while(s && s[i])
-// 		i++;
-// 	return i;
-// }
+int ft_strlen(char *s)
+{
+	int i = 0;
+	while(s && s[i])
+		i++;
+	return i;
+}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstart)
 {
@@ -15,8 +15,9 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 	char	*dst;
 
 	dst = data->mlx_bgimage_addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	int fill_x = x % data->text_width; // calculate the corresponding x-coordinate in the fill image
-    int fill_y =  (int)(wstart * data->text_height / data->wall_height)  % data->text_height;
+	int fill_x =  (((int)data->inter_y) % 16) * data->text_width / 15; // calculate the corresponding x-coordinate in the fill image
+	// fprintf(stderr, "{%d-----}\n", data->text_width);
+    int fill_y =  (int)((wstart) * data->text_height / data->wall_height)  % data->text_height;
 	int fill_offset = fill_y * data->text_line_length + fill_x * (data->bpp / 8);
 	unsigned int toput = *(unsigned int *)(data->text_image_addr + fill_offset);
 	if (flag == 0)
@@ -32,7 +33,7 @@ void draw_rect(t_data *data)
 	double cstart_y;
 	int wall_start = 0;
     data->middle_y = round(data->screen_height / 2);
-	data->wall_height = round((64 / data->df) * 120);
+	data->wall_height = round((64 / data->df) * 200);
 	if (data->wall_height > data->screen_height)
 		data->wall_height = data->screen_height;
 	double start_y =  round(data->middle_y - (data->wall_height / 2));
@@ -40,6 +41,7 @@ void draw_rect(t_data *data)
 	cstart_y = start_y;
 	fstart_y =  end_y;
 	steps = data->text_height / data->wall_height;
+	//fprintf(stderr, "{%d---%f---%d}\n", steps, wall_height, data->text_height);
 	while(end_y > start_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, start_y, 0xFFFFFF, 0, wall_start);
@@ -56,25 +58,25 @@ void draw_rect(t_data *data)
 
 void cast_rays(t_data *data)
 {
-	int c = 0;
 	data->start_x = 0;
 	double fst_ray = data->p_angle + (data->fov / 2);
 	double ray_end = fst_ray - data->fov;
 	//fprintf(stderr, "{%f----%f}\n", fst_ray, ray_end);
 	// int newx;
 	// int newy;
+	//int c = 0;
 	while(fst_ray > ray_end)
 	{
 		data->fstrayy = fst_ray;
 		// newx = data->p_x + ((data->screen_width) * cos(turn_to_rad(fst_ray)));
 		// newy = data->p_y - ( (data->screen_height) * sin(turn_to_rad(fst_ray)));
 		data->df = drawLine(data, data->p_x, data->p_y);
-		c++;
+		//c++;
 		data->df = data->df * cos(turn_to_rad(fst_ray - data->p_angle));
 		draw_rect(data);
 		fst_ray = fst_ray - (60 / data->screen_width);
 	}
-	//fprintf(stderr, "{%f}\n", data->p_angle);
+	//fprintf(stderr, "{%d}\n", c);
 }
 
 // void cast_rays(t_data *data)

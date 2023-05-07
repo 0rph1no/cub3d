@@ -1,6 +1,6 @@
 #include "includes/cub3d.h"
 
-int get_player_pos(char **map, int flag)
+int get_player_pos(char **map, int flag, t_data *data)
 {
 	int i = 0;
 	int j = 0;
@@ -8,8 +8,9 @@ int get_player_pos(char **map, int flag)
 	{
 		while(map[i][j])
 		{
-			if (map[i][j] == 'N')
+			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'S')
 			{
+				data->vision = map[i][j];
 				if (flag == 0)
 					return j;
 				return i;
@@ -44,18 +45,30 @@ double turn_to_rad(double deg)
 	return (deg * (PI / 180.0));
 }
 
+void set_vision(t_data *data)
+{
+	if (data->vision == 'E')
+		data->p_angle = 0;
+	else if (data->vision == 'W')
+		data->p_angle = 180;
+	else if (data->vision == 'N')
+		data->p_angle = 90;
+	else if (data->vision == 'S')
+		data->p_angle = 270;
+}
+
 int ft_execution(t_all *all)
 {
 	all->data->map_width = ft_strlen(all->data->map[0]);
 	//fprintf(stderr, "sdfdsfsfsf\n");
 	all->data->map_height = get_map_height(all->data->map);
-	all->data->p_x = get_player_pos(all->data->map, 0) * (66 / minimap_scale);
-	all->data->p_y = get_player_pos(all->data->map, 1) * (66 / minimap_scale);
+	all->data->p_x = get_player_pos(all->data->map, 0, all->data) * (66 / minimap_scale);
+	all->data->p_y = get_player_pos(all->data->map, 1, all->data) * (66 / minimap_scale);
 	all->data->mlx_instance = mlx_init();
 	all->data->fov = 60;
 	all->data->plane_dim_x = 320;
 	all->data->plane_dim_y = 120;
-	all->data->p_angle = 90;
+	set_vision(all->data);
 	all->data->p_speed = 20;
 	all->data->p_rot_speed = 15;
 	all->data->i = 400;
@@ -76,8 +89,3 @@ int ft_execution(t_all *all)
 	return 0;
 }
 
-	//fprintf(stderr, "{%p}----{%p}---{%d}---{%d}\n ", data->mlx_bgimage_addr, data->mlx_bgimage_addr + 7680,data->line_length, data->bits_per_pixel);
-	/*
-		data.bpp => num of bits needed to draw a pixel with color // 32bit== 4byte
-		data.linelength => num of bytes needed to store one line of the image in memory which will equal the screen width * data.bpp/8
-	*/

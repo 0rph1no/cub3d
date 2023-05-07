@@ -3,22 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/05 17:37:29 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:42:34 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "includes/cub3d.h"
 
-int ft_strlen(char *s)
-{
-	int i = 0;
-	while(s && s[i])
-		i++;
-	return (i);
-}
+
 
 size_t	ft_strlcpy(char *dest, char *str, size_t size)
 {
