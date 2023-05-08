@@ -6,7 +6,7 @@
 /*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/07 21:42:04 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:00:08 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <math.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+// int FLAG = 0;
 
 typedef struct s_S
 {
@@ -120,6 +122,7 @@ typedef struct s_data
 	double inter_x;
 	double inter_y;
 	char vision;
+	char fin_9ass;
 	
 	t_ray *ray;
 	

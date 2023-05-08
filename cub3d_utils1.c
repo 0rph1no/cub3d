@@ -13,11 +13,18 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 {
 	// int temp = wstart;
 	char	*dst;
-
+	int fill_x = 0;
 	dst = data->mlx_bgimage_addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	int fill_x =  (((int)data->inter_y) % 16) * data->text_width / 15; // calculate the corresponding x-coordinate in the fill image
+	if (data->fin_9ass == 'x')
+	{
+		fill_x = data->inter_y * (float)data->text_width / 16;
+		if (fill_x > data->text_width)
+			fill_x %= data->text_width;
+	}
+	else
+		flag = 1; // calculate the corresponding x-coordinate in the fill image
 	// fprintf(stderr, "{%d-----}\n", data->text_width);
-    int fill_y =  (int)((wstart) * data->text_height / data->wall_height)  % data->text_height;
+    int fill_y =  (int)((wstart) * data->text_height / data->wall_height) % data->text_height;
 	int fill_offset = fill_y * data->text_line_length + fill_x * (data->bpp / 8);
 	unsigned int toput = *(unsigned int *)(data->text_image_addr + fill_offset);
 	if (flag == 0)
@@ -74,7 +81,7 @@ void cast_rays(t_data *data)
 		//c++;
 		data->df = data->df * cos(turn_to_rad(fst_ray - data->p_angle));
 		draw_rect(data);
-		fst_ray = fst_ray - (60 / data->screen_width);
+		fst_ray = fst_ray - (64 / data->screen_width);
 	}
 	//fprintf(stderr, "{%d}\n", c);
 }

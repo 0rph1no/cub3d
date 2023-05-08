@@ -9,18 +9,40 @@ void put_player_cube(t_data *data)
 double drawLine(t_data *data, double x1, double y1)
 {
 //	double ca;
- 
+	double temp_x;
+	double temp_y;
     while (1) {
+		temp_x = x1;
+		temp_y = y1;
 		//my_mlx_pixel_put(data, x1, y1, 0x80FFFF, 1, 0);
+		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
 		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
 		{
-			//fprintf(stderr, "y toucged\n");
-			//fprintf(stderr, "y touched---%f\n", y1);
-			data->inter_y = x1+y1;
+			//fprintf(stderr,"{%f}--{ %f}----{%c}\n", (x1 - 1)/64/minimap_scale, x1, data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale]);
+			if (
+				data->map[(int)y1/64/minimap_scale][(int)temp_x/64/minimap_scale] == '0'  
+				)
+				data->inter_y = x1;
+			else
+				data->inter_y = y1;
+			// printf("{w: %f\n}", data->inter_y);
+			data->fin_9ass = 'x';
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
-		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
 		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
+		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
+		{
+			//fprintf(stderr,"{%f}--{ %f}----{%c}\n", (x1 - 1)/64/minimap_scale, x1, data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale]);
+			if (
+				data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale] == '0'  
+				)
+				data->inter_y = y1;
+			else
+				data->inter_y = x1;
+			// printf("{s: %f\n}", data->inter_y);
+			data->fin_9ass = 'y';
+			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
+		}
     }
 	return -1;
 }
@@ -97,6 +119,7 @@ int	key_hook(int keycode, t_all *all)
 {
 	t_data *data;
 	data = all->data;
+	printf("{%f}\n" , data->p_angle);
 	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
 	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian);
 	if (keycode == 123)
@@ -144,58 +167,29 @@ int	key_hook(int keycode, t_all *all)
 	}
 	else if (keycode == 0)
 	{
-		double player_cos = (cos(turn_to_rad(data->p_angle)) * data->p_speed) / minimap_scale;
-		double player_sin = (sin(turn_to_rad(data->p_angle)) * data->p_speed) / minimap_scale;
-		//fprintf(stderr, "{--%f}\n", data->p_angle);
-		data->i = 0;
-		data->j = 0;
-		if (data->p_angle >= 45 && data->p_angle <= 135)
-			data->p_x-=player_cos; 
-		else if (data->p_angle >= 225 && data->p_angle <= 325)
-			data->p_x+=player_cos; 
-		else if (((data->p_angle) >= 0 && data->p_angle < 45) || (data->p_angle > 270 && data->p_angle <= 360))
-			data->p_y-=player_sin;
-		else if (data->p_angle >= 135 && data->p_angle < 225)
-			data->p_y+=player_sin; 
+		double player_cos = (cos(turn_to_rad(data->p_angle + 90)) * data->p_speed) / minimap_scale;
+		double player_sin = (sin(turn_to_rad(data->p_angle + 90)) * data->p_speed) / minimap_scale;
+		data->p_x+=player_cos;
+		data->p_y-=player_sin;
+		//printf("{%f----%f}\n", data->p_y, data->p_x);
 		if (detect_colation(data->map, data->p_y, data->p_x, data->p_angle) == 0)
 		{
-			if (data->p_angle >= 45 && data->p_angle <= 135)
-				data->p_x+=player_cos; 
-			else if (data->p_angle >= 225 && data->p_angle <= 325)
-				data->p_x-=player_cos; 
-			else if (((data->p_angle) >= 0 && data->p_angle < 45) || (data->p_angle > 270 && data->p_angle <= 360))
-				data->p_y+=player_cos;
-			else if (data->p_angle >= 135 && data->p_angle < 225)
-				data->p_y-=player_cos; 
+			data->p_x-=player_cos;
+			data->p_y+=player_sin;
 			return 0;
 		}
 		draw_pixels(data);
 	}
 	else if (keycode == 2)
 	{
-		double player_cos = (cos(turn_to_rad(data->p_angle)) * data->p_speed) / minimap_scale;
-		double player_sin = (sin(turn_to_rad(data->p_angle)) * data->p_speed) / minimap_scale;
-		//fprintf(stderr, "{--%f}\n", data->p_angle);
-		data->i = 0;
-		data->j = 0;
-		if (data->p_angle >= 45 && data->p_angle <= 135)
-			data->p_x+=player_cos; 
-		else if (data->p_angle >= 225 && data->p_angle <= 325)
-			data->p_x-=player_cos; 
-		else if (((data->p_angle) >= 0 && data->p_angle < 45) || (data->p_angle > 270 && data->p_angle <= 360))
-			data->p_y+=player_sin;
-		else if (data->p_angle >= 135 && data->p_angle < 225)
-			data->p_y-=player_sin; 
+		double player_cos = (cos(turn_to_rad(data->p_angle - 90)) * data->p_speed) / minimap_scale;
+		double player_sin = (sin(turn_to_rad(data->p_angle - 90)) * data->p_speed) / minimap_scale;
+		data->p_x+=player_cos;
+		data->p_y-=player_sin;
 		if (detect_colation(data->map, data->p_y, data->p_x, data->p_angle) == 0)
 		{
-			if (data->p_angle >= 45 && data->p_angle <= 135)
-				data->p_x-=player_cos; 
-			else if (data->p_angle >= 225 && data->p_angle <= 325)
-				data->p_x+=player_cos; 
-			else if (((data->p_angle) >= 0 && data->p_angle < 45) || (data->p_angle > 270 && data->p_angle <= 360))
-				data->p_y-=player_cos;
-			else if (data->p_angle >= 135 && data->p_angle < 225)
-				data->p_y+=player_cos; 
+			data->p_x-=player_cos;
+			data->p_y+=player_sin;
 			return 0;
 		}
 		draw_pixels(data);

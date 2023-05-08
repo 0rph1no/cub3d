@@ -31,11 +31,8 @@ int detect_colation(char **map, int py, int px, double angle)
 
 	newx = px / (64 / minimap_scale);
 	newy = py / (64 / minimap_scale);
-	// if (newy > 0)
-	// 	i  = ft_strlen(map[newy]);
-	// if (i == 0)
-	// 	return (0);
- 	 if (map[newy][newx] && ( map[newy][newx] == '1'))
+	//printf( "{%d---%d}\n",  newx, newy);
+ 	 if (map[newy] && map[newy][newx] && ( map[newy][newx] == '1'))
 		return 0;
 	return 1;
 }
@@ -79,7 +76,7 @@ int ft_execution(t_all *all)
 	all->data->mlx_window = mlx_new_window(all->data->mlx_instance, all->data->screen_width, all->data->screen_height, "charaf windows");
 	all->data->mlx_bgimage = mlx_new_image(all->data->mlx_instance, all->data->screen_width, all->data->screen_height);
 	all->data->mlx_bgimage_addr = mlx_get_data_addr(all->data->mlx_bgimage, &all->data->bits_per_pixel, &all->data->line_length, &all->data->endian); 
-	all->data->text_image = mlx_xpm_file_to_image(all->data->mlx_instance, "textures/text_no.xpm", &all->data->text_width, &all->data->text_height);
+	all->data->text_image = mlx_xpm_file_to_image(all->data->mlx_instance, "textures/eagle.xpm", &all->data->text_width, &all->data->text_height);
 	all->data->text_image_addr = mlx_get_data_addr(all->data->text_image, &all->data->bpp, &all->data->text_line_length, &all->data->text_endian);
 	all->data->j = 50;
 	draw_pixels(all->data);
