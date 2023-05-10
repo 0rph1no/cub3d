@@ -6,7 +6,7 @@
 /*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/08 16:00:08 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:51:18 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,19 @@ typedef struct s_text_colo
 typedef struct s_data
 {
 	double fstrayy;
+	double lstrayy;
 	void *mlx_instance;
 	void *mlx_window;
 	void *mlx_bgimage;
 	char *mlx_bgimage_addr;
+	void *texty_image;
+	char *texty_image_addr;
 	void *text_image;
 	void *text_image_addr;
 	int text_width;
 	int text_height;
+	int text_y_width;
+	int text_y_height; 
 	double fov;
 	double plane_dim_x;
 	double plane_dim_y;
@@ -97,6 +102,9 @@ typedef struct s_data
 	int		bpp;
 	int		text_line_length;
 	int		text_endian;
+	int		bpp_y;
+	int		text_line_length_y;
+	int		text_endian_y;
 	int pcube_center_x;
 	int pcube_center_y;
 	int	map_width;
@@ -123,6 +131,7 @@ typedef struct s_data
 	double inter_y;
 	char vision;
 	char fin_9ass;
+	double fov_m;
 	
 	t_ray *ray;
 	

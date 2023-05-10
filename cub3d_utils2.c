@@ -76,8 +76,10 @@ int ft_execution(t_all *all)
 	all->data->mlx_window = mlx_new_window(all->data->mlx_instance, all->data->screen_width, all->data->screen_height, "charaf windows");
 	all->data->mlx_bgimage = mlx_new_image(all->data->mlx_instance, all->data->screen_width, all->data->screen_height);
 	all->data->mlx_bgimage_addr = mlx_get_data_addr(all->data->mlx_bgimage, &all->data->bits_per_pixel, &all->data->line_length, &all->data->endian); 
-	all->data->text_image = mlx_xpm_file_to_image(all->data->mlx_instance, "textures/eagle.xpm", &all->data->text_width, &all->data->text_height);
+	all->data->text_image = mlx_xpm_file_to_image(all->data->mlx_instance, "textures/text_no.xpm", &all->data->text_width, &all->data->text_height);
 	all->data->text_image_addr = mlx_get_data_addr(all->data->text_image, &all->data->bpp, &all->data->text_line_length, &all->data->text_endian);
+	all->data->texty_image = mlx_xpm_file_to_image(all->data->mlx_instance, "textures/redbrick.xpm", &all->data->text_y_width, &all->data->text_y_height);
+	all->data->texty_image_addr = mlx_get_data_addr(all->data->texty_image, &all->data->bpp_y, &all->data->text_line_length_y, &all->data->text_endian_y);
 	all->data->j = 50;
 	draw_pixels(all->data);
 	mlx_put_image_to_window(all->data->mlx_instance, all->data->mlx_window, all->data->mlx_bgimage, 0, 0);

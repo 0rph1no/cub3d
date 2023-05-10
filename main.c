@@ -25,8 +25,8 @@ double drawLine(t_data *data, double x1, double y1)
 				data->inter_y = x1;
 			else
 				data->inter_y = y1;
-			// printf("{w: %f\n}", data->inter_y);
 			data->fin_9ass = 'x';
+			// printf("{w: %f\n}", data->inter_y);
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
 		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
@@ -39,8 +39,8 @@ double drawLine(t_data *data, double x1, double y1)
 				data->inter_y = y1;
 			else
 				data->inter_y = x1;
-			// printf("{s: %f\n}", data->inter_y);
 			data->fin_9ass = 'y';
+			// printf("{s: %f\n}", data->inter_y);
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
     }
@@ -119,7 +119,7 @@ int	key_hook(int keycode, t_all *all)
 {
 	t_data *data;
 	data = all->data;
-	printf("{%f}\n" , data->p_angle);
+	// printf("{%f}\n" , data->p_angle);
 	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
 	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian);
 	if (keycode == 123)
