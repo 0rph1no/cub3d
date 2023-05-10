@@ -32,7 +32,11 @@ int detect_colation(char **map, int py, int px, double angle)
 	newx = px / (64 / minimap_scale);
 	newy = py / (64 / minimap_scale);
 	//printf( "{%d---%d}\n",  newx, newy);
+	if (newy < 0)
+		return 0;
  	 if (map[newy] && map[newy][newx] && ( map[newy][newx] == '1'))
+		return 0;
+	else if (map[newy] && (map[newy][newx-1] == '1' || map[newy+1][newx] == '1'))
 		return 0;
 	return 1;
 }
@@ -61,7 +65,7 @@ int ft_execution(t_all *all)
 	all->data->map_height = get_map_height(all->data->map);
 	all->data->p_x = get_player_pos(all->data->map, 0, all->data) * (66 / minimap_scale);
 	all->data->p_y = get_player_pos(all->data->map, 1, all->data) * (66 / minimap_scale);
-	all->data->mlx_instance = mlx_init();
+	all->data->mlx_instance = NULL;
 	all->data->fov = 60;
 	all->data->plane_dim_x = 320;
 	all->data->plane_dim_y = 120;
@@ -73,6 +77,7 @@ int ft_execution(t_all *all)
 	all->data->screen_width = 1200;
 	all->data->screen_height = 1000;
 	all->data->dtp = all->data->plane_center_dim / tan(turn_to_rad(30));
+	all->data->mlx_instance = mlx_init();
 	all->data->mlx_window = mlx_new_window(all->data->mlx_instance, all->data->screen_width, all->data->screen_height, "charaf windows");
 	all->data->mlx_bgimage = mlx_new_image(all->data->mlx_instance, all->data->screen_width, all->data->screen_height);
 	all->data->mlx_bgimage_addr = mlx_get_data_addr(all->data->mlx_bgimage, &all->data->bits_per_pixel, &all->data->line_length, &all->data->endian); 

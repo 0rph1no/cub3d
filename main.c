@@ -18,13 +18,19 @@ double drawLine(t_data *data, double x1, double y1)
 		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
 		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
 		{
+			// printf("x1 = {%f}--{%f}---{%c}\n", x1, y1, );
 			//fprintf(stderr,"{%f}--{ %f}----{%c}\n", (x1 - 1)/64/minimap_scale, x1, data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale]);
-			if (
-				data->map[(int)y1/64/minimap_scale][(int)temp_x/64/minimap_scale] == '0'  
-				)
-				data->inter_y = x1;
-			else
+			// if (
+			// 	data->map[(int)y1/64][(int)temp_x/64] == '0'  
+			// 	)
+			// 	{
+
+			// 		data->inter_y = x1;
+			// 	}
+			// else
 				data->inter_y = y1;
+				data->inter_x = x1;
+			// /printf("{^^%f}\n", data->inter_y);
 			data->fin_9ass = 'x';
 			// printf("{w: %f\n}", data->inter_y);
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
@@ -33,13 +39,17 @@ double drawLine(t_data *data, double x1, double y1)
 		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
 		{
 			//fprintf(stderr,"{%f}--{ %f}----{%c}\n", (x1 - 1)/64/minimap_scale, x1, data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale]);
-			if (
-				data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale] == '0'  
-				)
-				data->inter_y = y1;
-			else
-				data->inter_y = x1;
+			// if (
+			// 	data->map[(int)temp_y/64/minimap_scale][(int)x1/64/minimap_scale] == '0'  
+			// 	)
+			// 	data->inter_y = y1;
+			// else
+				
+			
+			data->inter_y = x1;
+			data->inter_x = y1;
 			data->fin_9ass = 'y';
+			// printf("{^^%f}\n", data->inter_y);
 			// printf("{s: %f\n}", data->inter_y);
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
@@ -200,7 +210,7 @@ int	key_hook(int keycode, t_all *all)
 int main(int ac, char **av)
 {
 	t_all all;
-	all.data = malloc(sizeof(sizeof(t_data)));
+	all.data = malloc(sizeof(t_data));
 
 	ft_parsing(&all, av[1]);
 	//printf("sdsdfsdfdsfdsf%s\n", all.map->use[0]);

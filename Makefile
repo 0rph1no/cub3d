@@ -7,7 +7,7 @@ OBJS = $(SRCS:%.c=%.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	cc -fsanitize=address -lmlx -framework OpenGL -framework AppKit $(OBJS) -o $(NAME)
+	cc -lmlx -framework OpenGL -framework AppKit $(OBJS) -o $(NAME)
 $(OBJS) : $(SRCS)
 	cc -Wall -Wextra   $(SRCS) -c
 
