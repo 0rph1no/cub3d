@@ -120,7 +120,7 @@ void	draw_pixels(t_data *data)
 	// 		j = 0;
 	// 	}
 
-
+	mlx_clear_window(data-> mlx_instance, data->mlx_window);
 	cast_rays(data);
 	mlx_put_image_to_window(data->mlx_instance, data->mlx_window, data->mlx_bgimage, 0, 0);
 }
@@ -130,6 +130,7 @@ int	key_hook(int keycode, t_all *all)
 	t_data *data;
 	data = all->data;
 	// printf("{%f}\n" , data->p_angle);
+	mlx_destroy_image(data->mlx_instance, data->mlx_bgimage);
 	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
 	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian);
 	if (keycode == 123)
