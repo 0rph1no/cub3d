@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/11 18:39:39 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/11 20:23:06 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	ft_counting_map_size(t_all *all)
 
 	fd = open(all->map.name, O_RDONLY);
 	if (fd < 0)
-		exit(write(2, "Error\nSEGV: could not open the file\nMaybe the \
-file is not existe or the permission does not allowed to open the file\n", 118));
+		exit(write(2, "Error\nSEGV: could not open the file\nMaybe the file \
+is not existe or the permission does not allowed to open the file\n", 118));
 	temp = get_next_line(fd);
 	all->map.row_number = 0;
 	all->map.big_size = 0;
@@ -59,16 +59,16 @@ void	check_validaiton_name(char *name)
 	char	*temp;
 
 	if (name == NULL || name[0] == '\0')
-		exit(write(2, "Error\nSEGV: File name is empty or not valid", 43));
+		exit(write(2, "Error\nSEGV: File name is empty or not valid\n", 45));
 	temp = strrchr(name, '.');
 	if (temp == NULL)
-		exit(write(2,"Error\nThe file does not containe any extansion\n",48 ));
+		exit(write(2,"Error\nThe file does not containe any extansion\n", 48));
 	if (strcmp(temp, ".cub"))
 		exit(write(2, "Error\nSEGV\nThe File doe not contain the extansion \
-'.cub'\nplease add the '.cub'extanson to the your map file", 108));
+'.cub'\nplease add the '.cub'extanson to the your map file\n", 109));
 }
 
-void	read_map(t_all  *all)
+void	read_map(t_all *all)
 {
 	char	*temp;
 	int		fd;
@@ -80,7 +80,7 @@ void	read_map(t_all  *all)
 	fd = open(all->map.name, O_RDONLY);
 	if (fd < 0)
 		exit(write(2, "Error\nCould not open the file\nMaybe the \
-file is not existe or the permission does not allowed to open the file", 111));
+file is not existe or the permission does not allowed to open the file\n", 112));
 	temp = get_next_line(fd);
 	if (temp == NULL)
 		exit(write(2, "Error\nThe File \".cub\" is not containing anything\n", 50));
@@ -105,7 +105,7 @@ char	*return_elements(char *str)
 	x = 0;
 	i = 0;
 	if (!str)
-		return NULL;
+		return (NULL);
 	while (str[i] && str[i] == ' ')
 		i++;
 	ptr  = calloc((ft_strlen(str) - i) + 1 , 1);
@@ -249,9 +249,9 @@ void	check_textures(t_all *all)
 	all->tool.so = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->so, \
 	&all->data.so.text_width, &all->data.so.text_height);
 	if (!all->tool.ea || !all->tool.no || !all->tool.we || !all->tool.so)
-		exit(write(2, "Error\nOops!\nSomething does not wotk as expected\nMaybe \
-		the texteurs are not valid or they are not exis\nOr their contant is not \
-		correct\nPlease make sure that everyhting is correct\nThank you", 192));
+		exit(write(2, "Error\nOops! Something does not wotk as expected\nMaybe \
+the texteurs are not valid or they are not exis\nOr their contant is not \
+correct\nPlease make sure that everyhting is correct\nThank you\n", 189));
 	all->data.ea.text =  mlx_get_data_addr(all->tool.ea, &all->data.ea.bit_per_pixel, \
 	&all->data.ea.text_line_lenght, &all->data.ea.text_endian);
 	all->data.so.text = mlx_get_data_addr(all->tool.so, &all->data.so.bit_per_pixel, \
@@ -312,8 +312,8 @@ void	ft_help_my_flood_fill(char **map, int i, int x)
 
 void	my_flood_fill(char **map)
 {
-	int i;
-	int x;
+	int	i;
+	int	x;
 
 	i = 1;
 	x = 0;
@@ -339,14 +339,28 @@ void	my_flood_fill(char **map)
 	}
 }
 
-void	check_map(char **map)
+void check_new_line(char **map)
 {
 	int i;
-	int y;
+
+	i = 0;
+	while (map[i])
+	{
+		if (map[i][0] == '\n')
+				exit(write(2, "Error\nOne or more consecutives newline\n", 40));
+		i++;
+	}
+}
+
+void	check_map(char **map)
+{
+	int	i;
+	int	y;
 
 	i = 0;
 	y = 1;
 	check_ele(map);
+	check_new_line(map);
 	while (map[0][i])
 	{
 		if (map[0][i] != '1' && map[0][i] != '\n' && map[0][i] != ' ')

@@ -1,10 +1,11 @@
 #include "includes/cub3d.h"
 #include "includes/get_next_line.h"
 
-double drawLine(t_data *data, double x1, double y1)
+double	drawLine(t_data *data, double x1, double y1)
 {
-	double temp_x;
-	double temp_y;
+	double	temp_x;
+	double	temp_y;
+
     while (1) {
 		temp_x = x1;
 		temp_y = y1;
@@ -25,7 +26,7 @@ double drawLine(t_data *data, double x1, double y1)
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
     }
-	return -1;
+	return (-1);
 }
 
 
@@ -43,6 +44,8 @@ int	key_hook(int keycode, t_all *all)
 	mlx_destroy_image(data->mlx_instance, data->mlx_bgimage);
 	data->mlx_bgimage = mlx_new_image(data->mlx_instance, data->screen_width, data->screen_height);
 	data->mlx_bgimage_addr = mlx_get_data_addr(data->mlx_bgimage, &data->bits_per_pixel, &data->line_length, &data->endian);
+	if (keycode == 53)
+		exit(0);
 	if (keycode == 123)
 	{
 		data->p_angle+=5;
@@ -120,10 +123,8 @@ int	key_hook(int keycode, t_all *all)
 int main(int ac, char **av)
 {
 	t_all all;
-
 	ft_parsing(&all, av[1]);
 	ft_execution(&all);
-	int i;
-	i = 0;
+	
 	return ac;
 }

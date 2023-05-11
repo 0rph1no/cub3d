@@ -135,8 +135,6 @@ void cast_rays(t_data *data)
 	}
 }
 
-
-
 int get_map_height(char **map)
 {
 	int i = 0;
