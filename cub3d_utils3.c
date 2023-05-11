@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/07 21:42:34 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:28:43 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ void	ft_counting_map_size(t_all *all)
 {
 	int fd;
 	char *temp;
-	fd = open(all->map->name, O_RDONLY);
+	fd = open(all->map.name, O_RDONLY);
 	if (fd < 0)
 		exit(write(2, "Error\nSEGV: could not open the file\nMaybe the file is not existe or the permission does not allowed to open the file\n", 118));
 	temp = get_next_line(fd);
-	all->map->row_number = 0;
-	all->map->big_size = 0;
+	all->map.row_number = 0;
+	all->map.big_size = 0;
 	while (temp)
 	{
-		all->map->row_number++;
-		if (all->map->big_size < ft_strlen(temp))
-			all->map->big_size = ft_strlen(temp);
+		all->map.row_number++;
+		if (all->map.big_size < ft_strlen(temp))
+			all->map.big_size = ft_strlen(temp);
 		free(temp);
 		temp = get_next_line(fd);
 	}
@@ -74,23 +74,23 @@ void read_map(t_all  *all)
 	int i;
 
 	i = 0;
-	check_validaiton_name(all->map->name);
+	check_validaiton_name(all->map.name);
 	ft_counting_map_size(all);
-	fd = open(all->map->name, O_RDONLY);
+	fd = open(all->map.name, O_RDONLY);
 	if (fd < 0)
 		exit(write(2, "Error\nCould not open the file\nMaybe the file is not existe or the permission does not allowed to open the file", 104));
 	temp = get_next_line(fd);
 	if (temp == NULL)
 		exit(write(2, "Error\nThe File \".cub\" is not containing anything\n", 50));
-	all->map->map = calloc(sizeof(char *) * (all->map->row_number + 1), 1);
+	all->map.map = calloc(sizeof(char *) * (all->map.row_number + 1), 1);
 	while (temp)
 	{
-		all->map->map[i] = strdup(temp);
+		all->map.map[i] = strdup(temp);
 		free(temp);
 		temp = get_next_line(fd);
 		i++;
 	}
-	all->map->map[i] = NULL;
+	all->map.map[i] = NULL;
 	close(fd);
 }
 
@@ -158,12 +158,13 @@ void ft_put_map(char *key, char *name, int *x)
 void init(char **use, t_all *all)
 {
 	int i = 0;
-	while (i < all->map->row_number)
+	while (i < all->map.row_number)
 	{
-		use[i] = calloc(sizeof(char) *(all->map->big_size + 1), 1);
+		use[i] = calloc(sizeof(char) *(all->map.big_size + 1), 1);
 		i++;
 	}
 }
+
 int all_is_space(char *s)
 {
 	int i;
@@ -190,86 +191,68 @@ void put_them_in_the_place(t_all *all)
 	a = 0;
 	elements = 0;
 	all->elem = calloc(sizeof(t_elem), 1);
-	all->map->use = calloc(sizeof(char *) * (1 + all->map->row_number), 1);
-	all->map->use[all->map->row_number] = NULL;
-	init(all->map->use, all);
+	all->map.use = calloc(sizeof(char *) * (1 + all->map.row_number), 1);
+	all->map.use[all->map.row_number] = NULL;
+	init(all->map.use, all);
 	i = 0;
-	while (all->map->map[i])
+	while (all->map.map[i])
 	{
 		if (elements < 6)
 		{
-			if (all->map->map[i][0] == '\n')
+			if (all->map.map[i][0] == '\n')
 				i++;
 			else 
 			{
-				put_it(all, all->map->map[i]);
+				put_it(all, all->map.map[i]);
 				elements++;
 				i++;
 			}
 		}
-		else if (all->map->map[i][0] == '\n' && x == 0)
+		else if (all->map.map[i][0] == '\n' && x == 0)
 		{
 			i++;
 		}
 		else
 		{
-			if (ok == 0 && (all->map->map[i][0] == '\n' || all_is_space(all->map->map[i]) == 0))
+			if (ok == 0 && (all->map.map[i][0] == '\n' || all_is_space(all->map.map[i]) == 0))
 			{
 				i++;
 			}
 			else
 			{
-				ft_put_map(all->map->use[a], all->map->map[i], &a);
+				ft_put_map(all->map.use[a], all->map.map[i], &a);
 				x = 1;
 				i++;
 				ok = 1;
 			}
 		}
 	}
-	all->map->use[a] = NULL;
+	free(all->map.use[a]);
+	all->map.use[a] = NULL;
 	if ( !all->elem->ea  || !all->elem->we  || !all->elem->c_temp  ||!all->elem->f_temp  ||!all->elem->no  ||!all->elem->so)
 	    exit(write(2,  "Error\nSome elements of the map is not valid\nOr they are not puted in their right place\nPleasee make sure the everything is in its place\n", 130));
+
+
 }
 
 void check_textures(t_all *all)
 {
-	int i;
-	all->tool = calloc(sizeof(t_struct), 1);
-	all->data->mlx_instance = mlx_init();
-	all->tool->ea = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->ea, &i, &i);
-	all->tool->no = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->no, &i, &i);
-	all->tool->we = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->we, &i, &i);
-	all->tool->so = mlx_xpm_file_to_image(all->data->mlx_instance, all->elem->so, &i, &i);
-	if (!all->tool->ea || !all->tool->no || !all->tool->we || !all->tool->so)
+	all->data.mlx_instance = mlx_init();
+	all->tool.ea = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->ea, &all->data.ea.text_width, &all->data.ea.text_height);
+	all->tool.no = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->no, &all->data.no.text_width, &all->data.no.text_height);
+	all->tool.we = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->we, &all->data.we.text_width, &all->data.we.text_height);
+	all->tool.so = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->so, &all->data.so.text_width, &all->data.so.text_height);
+	if (!all->tool.ea || !all->tool.no || !all->tool.we || !all->tool.so)
 		exit(write(2, "Error\nOops!\nSomething does not wotk as expected\nMaybe the texteurs are not valid or they are not exis\nOr their contant is not correct\nPlease make sure that everyhting is correct\nThank you", 180));
+	all->data.ea.text =  mlx_get_data_addr(all->tool.ea, &all->data.ea.bit_per_pixel, &all->data.ea.text_line_lenght, &all->data.ea.text_endian);
+	all->data.so.text = mlx_get_data_addr(all->tool.so, &all->data.so.bit_per_pixel, &all->data.so.text_line_lenght, &all->data.so.text_endian);
+	all->data.no.text = mlx_get_data_addr(all->tool.no, &all->data.no.bit_per_pixel, &all->data.no.text_line_lenght, &all->data.no.text_endian);
+	all->data.we.text = mlx_get_data_addr(all->tool.we, &all->data.we.bit_per_pixel, &all->data.we.text_line_lenght, &all->data.we.text_endian);
+	if (!all->data.ea.text || !all->data.so.text | !all->data.no.text | !all->data.we.text)
+		exit(write(2, " Error\nOpps something does not work as expacted\n", 48));
+
 }
 
-// int count_map(char **map)
-// {
-// 	int i;
-// 	int a;
-
-// 	i = 0;
-// 	a = 0;
-// 	while (map[i])
-// 	{
-// 		if (map[i][0] == '\0')
-// 			i++;
-// 		else {
-// 			i++;
-// 			a++;
-// 		}
-// 	}
-// 	if (a < 2)
-// 		exit(write(2,"Oh! Oh! Serieously? is there any map with that size\n", 53));
-// 	return (i);
-
-// }
-
-// void check_main(t_all *all)
-// {
-	  
-// }
 void check_ele(char **str)
 {
 	t_l *l;
@@ -350,7 +333,6 @@ void check_map(char **map)
 
 	i = 0;
 	y = 1;
-	//count_map(map);
 	check_ele(map);
 	while (map[0][i])
 	{
@@ -372,16 +354,15 @@ void check_map(char **map)
 // }
 void is_they_valid(t_all *all)
 {
-	//check_textures(all);
-	check_map(all->map->use);
+	check_map(all->map.use);
+	check_textures(all);
 //	handle_rgbt(all);
-	all->data->map = all->map->use;
+	all->data.map = all->map.use;
 }
 
 void ft_parsing(t_all *all, char *av)
 {
-	all->map = malloc(sizeof(t_map));
-	all->map->name = av;
+	all->map.name = av;
 	read_map(all);
 	put_them_in_the_place(all);
 	is_they_valid(all);

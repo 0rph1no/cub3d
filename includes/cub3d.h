@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/10 14:51:18 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:24:27 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_map
 	char	*name;
 	int		big_size;
 	int		row_number;
+	char **d;
 }t_map;
 
 typedef struct s_emelemnts
@@ -68,10 +69,22 @@ typedef struct s_text_colo
 	int c;
 }t_struct;
 
+typedef struct textuers_info{
+	int		bit_per_pixel;
+	int		text_line_lenght;
+	int		text_width;
+	int		text_height;
+	int		text_endian;
+	char	*text;
+}t_info;
 
 
 typedef struct s_data
 {
+	t_info we;
+	t_info so;
+	t_info no;
+	t_info ea;
 	double fstrayy;
 	double lstrayy;
 	void *mlx_instance;
@@ -85,7 +98,8 @@ typedef struct s_data
 	int text_width;
 	int text_height;
 	int text_y_width;
-	int text_y_height; 
+	int text_y_height;
+	int ea_bpp;
 	double fov;
 	double plane_dim_x;
 	double plane_dim_y;
@@ -105,23 +119,15 @@ typedef struct s_data
 	int		bpp_y;
 	int		text_line_length_y;
 	int		text_endian_y;
-	int pcube_center_x;
-	int pcube_center_y;
 	int	map_width;
 	int map_height;
-	int	map_file;
 	double screen_width;
 	double screen_height;
 	char **map;
 	double p_angle;
 	double p_speed;
 	double p_rot_speed;
-	double turnDir;
-	double walkDir;
-	int *map_walls;
-	int flag;
 	double df;
-	double num_rays;
 	double color;
 	double wall_height;
 	double middle_x;
@@ -132,17 +138,16 @@ typedef struct s_data
 	char vision;
 	char fin_9ass;
 	double fov_m;
-	
 	t_ray *ray;
 	
 }t_data;
 
 typedef struct s_all
 {
-	t_data *data;
+	t_data data;
 	
-	t_struct *tool;
-	t_map *map;
+	t_struct tool;
+	t_map map;
 	t_elem *elem;
 }t_all;
 #define mapWidth 20

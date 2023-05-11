@@ -7,7 +7,8 @@ OBJS = $(SRCS:%.c=%.o)
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	cc -lmlx -framework OpenGL -framework AppKit $(OBJS) -o $(NAME)
+	cc   -lmlx -framework OpenGL -framework AppKit $(OBJS) -o $(NAME)
+	make clean
 $(OBJS) : $(SRCS)
 	cc -Wall -Wextra   $(SRCS) -c
 

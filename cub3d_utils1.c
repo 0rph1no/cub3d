@@ -23,7 +23,6 @@ char e_w(t_data *data)
 {
 	if (data->fin_9ass =='x')
 	{
-		// fprintf(stderr, "{%f||||||%f}\n", data->p_x, data->inter_y);
 		if (data->p_x > data->inter_x)
 			return ('W');
 		return ('E');
@@ -42,47 +41,45 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 	if (data->fin_9ass == 'x')
 	{
 		if (e_w(data) == 'E')
-			flag = 1;
-		// exit(1);
-		// if ((data->lstrayy >= -30 && data->lstrayy <= 90) || (data->lstrayy >= 260 && data->lstrayy <= 360))
-		// 	flag = 1;
-		// // if ((data->p_angle >= 0 && data->p_angle < 90) || (data->p_angle > 270 && data->p_angle <= 360))
-		// // 	flag = 1;
-		// // else if (data->p_angle >= 90 && data->p_angle <= 270)
-		// // 	flag = 1;
-		// if ((data->lstrayy < 90 && data->fstrayy < 90) || (data->lstrayy > 270))
-		// 	flag = 1;
+		{
+				fill_x = data->inter_y * (float)data->ea.text_width/ 16;
+				if (fill_x > data->ea.text_width)
+					fill_x %= data->ea.text_width;
+				fill_y =  (int)((wstart) * data->ea.text_height / data->wall_height) % data->ea.text_height;
+				fill_offset = fill_y * data->ea.text_line_lenght + fill_x * (data->ea.bit_per_pixel / 8);
+				toput = *(unsigned int *)(data->ea.text + fill_offset);
+		}
 		else
 		{
-			fill_x = data->inter_y * (float)data->text_width / 16;
-			if (fill_x > data->text_width)
-				fill_x %= data->text_width;
-			fill_y =  (int)((wstart) * data->text_height / data->wall_height) % data->text_height;
-			fill_offset = fill_y * data->text_line_length + fill_x * (data->bpp / 8);
-			toput = *(unsigned int *)(data->text_image_addr + fill_offset);
+				fill_x = data->inter_y * (float)data->we.text_width/ 16;
+				if (fill_x > data->we.text_width)
+					fill_x %= data->we.text_width;
+				fill_y =  (int)((wstart) * data->we.text_height / data->wall_height) % data->we.text_height;
+				fill_offset = fill_y * data->we.text_line_lenght + fill_x * (data->we.bit_per_pixel / 8);
+				toput = *(unsigned int *)(data->we.text + fill_offset);
 		}
 	}
 	else
-	{			
-			// if (data->lstrayy >= 180 && data->lstrayy <= 180)
-			// {
-			// // printf("sfsf-{%f---%f}\n", data->p_x, data->inter_y);
-			// // exit(1);
-			// 	flag = 1;
-			// }
+	{
 			if (n_s(data) == 'S')
-				flag = 1;
+			{
+				fill_x = data->inter_y * (float)data->so.text_width/ 16;
+				if (fill_x > data->so.text_width)
+					fill_x %= data->so.text_width;
+				fill_y =  (int)((wstart) * data->so.text_height / data->wall_height) % data->so.text_height;
+				fill_offset = fill_y * data->so.text_line_lenght + fill_x * (data->so.bit_per_pixel / 8);
+				toput = *(unsigned int *)(data->so.text + fill_offset);
+			}
 			else
 			{
-				fill_x = data->inter_y * (float)data->text_y_width / 16;
-				if (fill_x > data->text_y_width)
-					fill_x %= data->text_y_width;
-				fill_y =  (int)((wstart) * data->text_y_height / data->wall_height) % data->text_y_height;
-				fill_offset = fill_y * data->text_line_length_y + fill_x * (data->bpp_y / 8);
-				toput = *(unsigned int *)(data->texty_image_addr + fill_offset);
+				fill_x = data->inter_y * (float)data->no.text_width/ 16;
+				if (fill_x > data->no.text_width)
+					fill_x %= data->no.text_width;
+				fill_y =  (int)((wstart) * data->no.text_height / data->wall_height) % data->no.text_height;
+				fill_offset = fill_y * data->no.text_line_lenght + fill_x * (data->no.bit_per_pixel / 8);
+				toput = *(unsigned int *)(data->no.text + fill_offset);
 			}
-	}; // calculate the corresponding x-coordinate in the fill image
-	// fprintf(stderr, "{%d-----}\n", data->text_width);
+	}
 	if (flag == 0)
 		*(unsigned int*)dst = toput;
 	else if (flag == 1)
@@ -92,7 +89,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 
 void draw_rect(t_data *data)
 {
-	// printf("{angle: %f}\n", data->p_angle);
 	int steps;
 	double fstart_y;
 	double cstart_y;
@@ -102,20 +98,16 @@ void draw_rect(t_data *data)
 	if (data->wall_height > data->screen_height)
 		data->wall_height = data->screen_height;
 	double start_y =  round(data->middle_y - (data->wall_height / 2));
-	double end_y = round(start_y + data->wall_height);//749
+	double end_y = round(start_y + data->wall_height);
 	cstart_y = start_y;
 	fstart_y =  end_y;
 	steps = data->text_height / data->wall_height;
-	//fprintf(stderr, "{%d---%f---%d}\n", steps, wall_height, data->text_height);
 	while(end_y > start_y)
 	{
 		if (n_s(data) == 'S')
 			my_mlx_pixel_put(data, data->start_x, start_y, 0x008000, 0, wall_start);
 		else
 			my_mlx_pixel_put(data, data->start_x, start_y, 0xFFFFFF, 0, wall_start);
-			
-		// else
-		// 	my_mlx_pixel_put(data, data->start_x, start_y, 0x008000, 0, wall_start);
 		start_y++;
 		wall_start++;
 	}
@@ -131,70 +123,17 @@ void cast_rays(t_data *data)
 {
 	data->start_x = 0;
 	double fst_ray = data->p_angle + (data->fov / 2);
-	double ray_end = fst_ray - data->fov;	// int newx;
-	// int newy;
-	//int c = 0;
+	double ray_end = fst_ray - data->fov;
 	while(fst_ray > ray_end)
 	{
-		// if (fst_ray < 0)
-		// {
-		// 	printf("{-----%f---}\n",fst_ray);
-		// 	fst_ray = 360+fst_ray; //
-		// 	printf("{-----%f}\n",fst_ray);
-		// 	// exit(1);
-		// }
-		// if (ray_end < 0)
-		// 	ray_end = 360+ray_end;
 		data->fstrayy = fst_ray;
 		data->lstrayy = ray_end;
-		// fprintf(stderr, "{%f----%f}\n", fst_ray, ray_end);
-		// printf("{%f---|%f}---{%c}\n", data->p_x, data->inter_y, data->fin_9ass);
-		// printf("{%f}\n", ray_end);
-		// if (ray_end > 270 && ray_end <= 360)
-		// 	data->fov_m = ray_end - 
-		// newx = data->p_x + ((data->screen_width) * cos(turn_to_rad(fst_ray)));
-		// newy = data->p_y - ( (data->screen_height) * sin(turn_to_rad(fst_ray)));
 		data->df = drawLine(data, data->p_x, data->p_y);
-		// fprintf(stderr,"{%f}\n", data->int);
-		//c++;
 		data->df = data->df * cos(turn_to_rad(fst_ray - data->p_angle));
 		draw_rect(data);
 		fst_ray = fst_ray - (60 / data->screen_width);
 	}
-	//fprintf(stderr, "{%d}\n", c);
 }
-
-// void cast_rays(t_data *data)
-// {
-// 	data->start_x = 0;
-// 	double fst_ray = data->p_angle + (data->fov / 2);
-// 	double ray_end = fst_ray - data->fov;
-// 	double newx;
-// 	double newy;
-// 	double nin_dif_x;
-// 	double nin_dif_y;
-// 	double diff;
-// 	double end_dif_x;
-// 	double end_dif_y;
-// 	double end_diff;
-// 	//double temp;
-// 	nin_dif_x = data->p_x + ((data->screen_width) * cos(turn_to_rad(data->p_angle)));
-// 	nin_dif_y = data->p_y - ( (data->screen_height) * sin(turn_to_rad(data->p_angle)));
-// 	diff = drawLine(data, data->p_x, data->p_y, nin_dif_x, nin_dif_y);
-// 	end_dif_x = data->p_x + ((data->screen_width) * cos(turn_to_rad(ray_end)));
-// 	end_dif_y = data->p_y - ( (data->screen_height) * sin(turn_to_rad(ray_end)));
-// 	end_diff = drawLine(data, data->p_x, data->p_y, end_dif_x, end_dif_y);
-// 	while(fst_ray >= ray_end)
-// 	{
-// 		data->fstrayy = fst_ray;
-// 		newx = data->p_x + ((data->screen_width) * cos(turn_to_rad(fst_ray)));
-// 		newy = data->p_y - ( (data->screen_height) * sin(turn_to_rad(fst_ray)));
-// 		data->df = drawLine(data, data->p_x, data->p_y, newx, newy);
-// 		data->df =  end_diff * cos(diff / end_diff);
-// 		draw_rect(data);
-// 		fst_ray = fst_ray - (64 / data->screen_width);
-// 	}	
-// }
 
 
 
@@ -204,15 +143,4 @@ int get_map_height(char **map)
 	while(map[i])
 		i++;
 	return i;
-}
-
-void fill_map(char **map, t_data *data)
-{
-	int i = 0;
-
-	map[i] = get_next_line(data->map_file);
-	while(map[i++])
-	{
-		map[i] = get_next_line(data->map_file);
-	}
 }
