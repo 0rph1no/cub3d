@@ -32,6 +32,8 @@ char e_w(t_data *data)
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstart)
 {
+	if (x < 0 || x >= data->screen_width || y < 0 || y >= data->screen_height)
+		return;
 	char	*dst;
 	int fill_y;
 	int fill_offset;
@@ -42,10 +44,10 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 	{
 		if (e_w(data) == 'E')
 		{
-				fill_x = data->inter_y * (float)data->ea.text_width/ 16;
+				fill_x = data->inter_y * (float)data->ea.text_width / 16;
 				if (fill_x > data->ea.text_width)
 					fill_x %= data->ea.text_width;
-				fill_y =  (int)((wstart) * data->ea.text_height / data->wall_height) % data->ea.text_height;
+				fill_y =  (int)((wstart) * data->ea.text_height / data->wall_height);
 				fill_offset = fill_y * data->ea.text_line_lenght + fill_x * (data->ea.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->ea.text + fill_offset);
 		}
@@ -54,7 +56,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 				fill_x = data->inter_y * (float)data->we.text_width/ 16;
 				if (fill_x > data->we.text_width)
 					fill_x %= data->we.text_width;
-				fill_y =  (int)((wstart) * data->we.text_height / data->wall_height) % data->we.text_height;
+				fill_y =  (int)((wstart) * data->we.text_height / data->wall_height);
 				fill_offset = fill_y * data->we.text_line_lenght + fill_x * (data->we.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->we.text + fill_offset);
 		}
@@ -66,7 +68,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 				fill_x = data->inter_y * (float)data->so.text_width/ 16;
 				if (fill_x > data->so.text_width)
 					fill_x %= data->so.text_width;
-				fill_y =  (int)((wstart) * data->so.text_height / data->wall_height) % data->so.text_height;
+				fill_y =  (int)((wstart) * data->so.text_height / data->wall_height);
 				fill_offset = fill_y * data->so.text_line_lenght + fill_x * (data->so.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->so.text + fill_offset);
 			}
@@ -75,7 +77,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 				fill_x = data->inter_y * (float)data->no.text_width/ 16;
 				if (fill_x > data->no.text_width)
 					fill_x %= data->no.text_width;
-				fill_y =  (int)((wstart) * data->no.text_height / data->wall_height) % data->no.text_height;
+				fill_y =  (int)((wstart) * data->no.text_height / data->wall_height);
 				fill_offset = fill_y * data->no.text_line_lenght + fill_x * (data->no.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->no.text + fill_offset);
 			}
@@ -95,8 +97,10 @@ void draw_rect(t_data *data)
 	int wall_start = 0;
     data->middle_y = round(data->screen_height / 2);
 	data->wall_height = round((64 / data->df) * 200);
-	if (data->wall_height > data->screen_height)
-		data->wall_height = data->screen_height;
+	// if (data->wall_height > data->screen_height)
+	// 	wall_start+=(data->wall_height - data->screen_height);
+	// if (data->wall_height > data->screen_height)
+		// data->wall_height = data->screen_height + 200;
 	double start_y =  round(data->middle_y - (data->wall_height / 2));
 	double end_y = round(start_y + data->wall_height);
 	cstart_y = start_y;
