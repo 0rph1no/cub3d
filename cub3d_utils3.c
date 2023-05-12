@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/12 22:30:46 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/12 22:35:37 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ size_t	ft_strlcpy(char *dest, char *str, size_t size)
 	dest[x] = '\0';
 	return (ft_strlen(str));
 }
-
-
 
 void	ft_counting_map_size(t_all *all)
 {
@@ -64,7 +62,7 @@ void	check_validaiton_name(char *name)
 		exit(write(2, "Error\nSEGV: File name is empty or not valid\n", 45));
 	temp = strrchr(name, '.');
 	if (temp == NULL)
-		exit(write(2,"Error\nThe file does not containe any extansion\n", 48));
+		exit(write(2, "Error\nThe file does not containe any extansion\n", 48));
 	if (strcmp(temp, ".cub"))
 		exit(write(2, "Error\nSEGV\nThe File doe not contain the extansion \
 '.cub'\nplease add the '.cub'extanson to the your map file\n", 109));
@@ -81,8 +79,8 @@ void	read_map(t_all *all)
 	ft_counting_map_size(all);
 	fd = open(all->map.name, O_RDONLY);
 	if (fd < 0)
-		exit(write(2, "Error\nCould not open the file\nMaybe the \
-file is not existe or the permission does not allowed to open the file\n", 112));
+		exit(write(2, "Error\nCould not open the file\nMaybe the file \
+is not existe or the permission does not allowed to open the file\n", 112));
 	temp = get_next_line(fd);
 	if (temp == NULL)
 		exit(write(2, "Error\nThe File \".cub\" is not containing anything\n", 50));
@@ -110,24 +108,22 @@ char	*return_elements(char *str)
 		return (NULL);
 	while (str[i] && str[i] == ' ')
 		i++;
-	ptr  = calloc((ft_strlen(str) - i) + 1 , 1);
+	ptr = calloc((ft_strlen(str) - i) + 1, 1);
 	while (str[i] && str[i] != '\n')
-	{
 		ptr[x++] = str[i++];
-	}
 	ptr[x] = '\0';
-	return (ptr);    
+	return (ptr);
 }
 
 void	put_it(t_all *all, char *name)
 {
 	if (strncmp(name, "EA", 2) == 0)
 		all->elem->ea = return_elements(name + 2);
-	if (strncmp(name, "SO", 2)==0)
+	if (strncmp(name, "SO", 2) == 0)
 		all->elem->so = return_elements(name + 2);
-	if (strncmp(name, "NO", 2)==0)
+	if (strncmp(name, "NO", 2) == 0)
 		all->elem->no = return_elements(name + 2);
-	if (strncmp(name, "WE", 2)==0)
+	if (strncmp(name, "WE", 2) == 0)
 		all->elem->we = return_elements(name + 2);
 	if (strncmp(name, "F", 1) == 0)
 		all->elem->f_temp = return_elements(name + 1);
@@ -194,7 +190,7 @@ void	put_them_in_the_place(t_all *all)
 		{
 			if (all->map.map[i][0] == '\n')
 				i++;
-			else 
+			else
 			{
 				put_it(all, all->map.map[i++]);
 				elements++;
@@ -227,8 +223,8 @@ everything is in its place\n", 137));
 void	check_textures(t_all *all)
 {
 	all->data.mlx_instance = mlx_init();
-	all->tool.ea = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->ea, \
-	&all->data.ea.text_width, &all->data.ea.text_height);
+	all->tool.ea = mlx_xpm_file_to_image(all->data.mlx_instance,\
+	 all->elem->ea, &all->data.ea.text_width, &all->data.ea.text_height);
 	all->tool.no = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->no, \
 	&all->data.no.text_width, &all->data.no.text_height);
 	all->tool.we = mlx_xpm_file_to_image(all->data.mlx_instance, all->elem->we, \
@@ -239,8 +235,8 @@ void	check_textures(t_all *all)
 		exit(write(2, "Error\nOops! Something does not wotk as expected\nMaybe \
 the texteurs are not valid or they are not exis\nOr their contant is not \
 correct\nPlease make sure that everyhting is correct\nThank you\n", 189));
-	all->data.ea.text =  mlx_get_data_addr(all->tool.ea, &all->data.ea.bit_per_pixel, \
-	&all->data.ea.text_line_lenght, &all->data.ea.text_endian);
+	all->data.ea.text =  mlx_get_data_addr(all->tool.ea, \
+&all->data.ea.bit_per_pixel, &all->data.ea.text_line_lenght, &all->data.ea.text_endian);
 	all->data.so.text = mlx_get_data_addr(all->tool.so, &all->data.so.bit_per_pixel, \
 	&all->data.so.text_line_lenght, &all->data.so.text_endian);
 	all->data.no.text = mlx_get_data_addr(all->tool.no, &all->data.no.bit_per_pixel, \
