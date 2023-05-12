@@ -84,15 +84,14 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 		*(unsigned int*)dst = toput;
 	else if (flag == 1)
 		*(unsigned int*)dst = color;
-		
 }
 
-void draw_rect(t_data *data)
+void	draw_rect(t_data *data)
 {
-	int steps;
-	double fstart_y;
-	double cstart_y;
-	int wall_start = 0;
+	int		steps;
+	double	fstart_y;
+	double	cstart_y;
+	int		wall_start = 0;
     data->middle_y = round(data->screen_height / 2);
 	data->wall_height = round((64 / data->df) * 200);
 	if (data->wall_height > data->screen_height)

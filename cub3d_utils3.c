@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/11 20:23:06 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/11 21:54:41 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,6 @@ correct\nPlease make sure that everyhting is correct\nThank you\n", 189));
 	&all->data.we.text_line_lenght, &all->data.we.text_endian);
 	if (!all->data.ea.text || !all->data.so.text | !all->data.no.text | !all->data.we.text)
 		exit(write(2, " Error\nOpps something does not work as expacted\n", 48));
-
 }
 
 void	check_ele(char **str)
