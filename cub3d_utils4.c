@@ -84,3 +84,33 @@ char	*ft_strtrim(char *s1, char  *set)
 	help_function(s1, i, lenth, str);
 	return (str);
 }
+
+void do_put_for_x(t_data *data, unsigned int *toput)
+{
+	// char			*dst;
+	int				fill_y;
+	int				fill_offset;
+	int				fill_x;
+	if (e_w(data) == 'E')
+	{
+		fill_x = data->inter_y * (float)data->ea.text_width / 16;
+		if (fill_x > data->ea.text_width)
+			fill_x %= data->ea.text_width;
+		fill_y = (int)((data->wall_start) * \
+		data->ea.text_height / data->wall_height);
+		fill_offset = fill_y * data->ea.text_line_lenght + \
+		fill_x * (data->ea.bit_per_pixel / 8);
+		*toput = *(unsigned int *)(data->ea.text + fill_offset);
+	}
+	else
+	{
+		fill_x = data->inter_y * (float)data->we.text_width / 16;
+		if (fill_x > data->we.text_width)
+			fill_x %= data->we.text_width;
+		fill_y = (int)((data->wall_start) * \
+		data->we.text_height / data->wall_height);
+		fill_offset = fill_y * data->we.text_line_lenght \
+		+ fill_x * (data->we.bit_per_pixel / 8);
+		*toput = *(unsigned int *)(data->we.text + fill_offset);
+	}
+}

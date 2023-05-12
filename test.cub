@@ -1,11 +1,12 @@
-NO /Users/abouzanb/Desktop/cub3d/textures/two.xpm
-SO /Users/abouzanb/Desktop/cub3d/textures/redbrick.xpm
-WE /Users/abouzanb/Desktop/cub3d/textures/lleagle.xpm
-EA /Users/abouzanb/Desktop/cub3d/textures/groo.xpm
+NO textures/one.xpm
+SO textures/redbrick.xpm
+WE textures/lleagle.xpm
+EA textures/text_no.xpm
 F 220,100,0
-C 225,30,0
+C 2205,30,0
 
-1111111
-10N10101
-10001001
-11111111
+111111
+100101
+101001
+1100N1
+111111

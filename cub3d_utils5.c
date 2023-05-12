@@ -1,86 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_utils5.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/13 00:02:52 by ceddibao          #+#    #+#             */
+/*   Updated: 2023/05/13 00:02:54 by ceddibao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/cub3d.h"
 
-char	*ft_substr(char  *str, unsigned int start, size_t len)
-{
-	char	*ptr;
-	size_t	a;
-	size_t	lenth;
-	size_t	strlenth;
-
-	a = 0;
-	if (!str)
-		return (NULL);
-	strlenth = ft_strlen(str);
-	lenth = len;
-	if (strlenth < len)
-		lenth = strlenth - start;
-	if (strlenth < start)
-		lenth = 0;
-	ptr = (char *)malloc(sizeof(char) * (lenth + 1));
-	if (ptr == NULL)
-		return (NULL);
-	while (a < lenth && str[start])
-	{
-		ptr[a] = str[start];
-		a++;
-		start++;
-	}
-	ptr[a] = '\0';
-	return (ptr);
-}
-
-static int	check_is_set(const char *set, char cut)
+int	get_map_height(char **map)
 {
 	int	i;
 
 	i = 0;
-	while (set[i] != '\0')
-	{
-		if (set[i] == cut)
-			return (1);
+	while (map[i])
 		i++;
-	}
-	return (0);
+	return (i);
 }
 
-static void	help_function(const char *s1, int i, int lenth, char *str)
+void	do_put_for_y(t_data *data, unsigned int *toput)
 {
-	int	x;
-
-	x = 0;
-	while (s1[i] != '\0' && i < lenth)
+	if (n_s(data) == 'S')
 	{
-		str[x] = s1[i];
-		i++;
-		x++;
+		data->fill_x = data->inter_y * (float)data->so.text_width / 16;
+		if (data->fill_x > data->so.text_width)
+			data->fill_x %= data->so.text_width;
+		data->fill_y = (int)((data->wall_start) * \
+		data->so.text_height / data->wall_height);
+		data->fill_offset = data->fill_y * data->so.text_line_lenght \
+		+ data->fill_x * (data->so.bit_per_pixel / 8);
+		*toput = *(unsigned int *)(data->so.text + data->fill_offset);
 	}
-	str[x] = '\0';
+	else
+	{
+		data->fill_x = data->inter_y * (float)data->no.text_width / 16;
+		if (data->fill_x > data->no.text_width)
+			data->fill_x %= data->no.text_width;
+		data->fill_y = (int)((data->wall_start) * \
+		data->no.text_height / data->wall_height);
+		data->fill_offset = data->fill_y * data->no.text_line_lenght + \
+		data->fill_x * (data->no.bit_per_pixel / 8);
+		*toput = *(unsigned int *)(data->no.text + data->fill_offset);
+	}
 }
 
-char	*ft_strtrim(char *s1, char  *set)
+void	cast_rays(t_data *data)
 {
-	int		i;
-	int		x;
-	int		lenth;
-	int		lenth2;
-	char	*str;
+	double	fst_ray;
+	double	ray_end;
 
-	if (!s1 || !set)
-		return (NULL);
-
-	lenth = ft_strlen(s1);
-	x = 0;
-	i = 0;
-	lenth2 = lenth;
-	while (check_is_set(set, s1[i]))
-		i++;
-	if (i == lenth)
-		return (NULL);
-	while (check_is_set(set, s1[lenth - 1]))
-		lenth--;
-	str = (char *)malloc(sizeof(char) * ((lenth - i) + 1));
-	if (str == NULL)
-		return (NULL);
-	help_function(s1, i, lenth, str);
-	return (str);
+	data->start_x = 0;
+	fst_ray = data->p_angle + (data->fov / 2);
+	ray_end = fst_ray - data->fov;
+	while (fst_ray > ray_end)
+	{
+		data->fstrayy = fst_ray;
+		data->lstrayy = ray_end;
+		data->df = drawLine(data, data->p_x, data->p_y);
+		data->df = data->df * cos(turn_to_rad(fst_ray - data->p_angle));
+		draw_rect(data);
+		fst_ray = fst_ray - (60 / data->screen_width);
+	}
 }

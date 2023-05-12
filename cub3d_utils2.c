@@ -1,17 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/12 23:58:01 by ceddibao          #+#    #+#             */
+/*   Updated: 2023/05/12 23:58:08 by ceddibao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/cub3d.h"
 
 int	get_player_pos(char **map, int flag, t_data *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
-	while(map[i])
+	while (map[i])
 	{
-		while(map[i][j])
+		j = 0;
+		while (map[i][j])
 		{
-			j = 0;
-			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'S')
+			if (map[i][j] == 'N' || map[i][j] == 'W' || \
+			map[i][j] == 'E' || map[i][j] == 'S')
 			{
 				data->vision = map[i][j];
 				if (flag == 0)
@@ -21,22 +34,21 @@ int	get_player_pos(char **map, int flag, t_data *data)
 			j++;
 		}
 		i++;
-	
 	}
 	return (-1);
 }
 
-int detect_colation(char **map, int py, int px, double angle)
+int	detect_colation(char **map, int py, int px, double angle)
 {
 	int	newx;
 	int	newy;
-	(void)angle;
 
+	(void)angle;
 	newx = px / (64 / MINIMAP_SCALE);
 	newy = py / (64 / MINIMAP_SCALE);
 	if (newy <= 0 || newx < 0)
 		return (0);
- 	 if (map[newy] && map[newy][newx] && ( map[newy][newx] == '1'))
+	if (map[newy] && map[newy][newx] && (map[newy][newx] == '1'))
 		return (0);
 	return (1);
 }
@@ -58,29 +70,29 @@ void	set_vision(t_data *data)
 		data->p_angle = 270;
 }
 
-void ft_execution(t_all *all)
+void	ft_execution(t_all *all)
 {
 	all->data.map_width = ft_strlen(all->data.map[0]);
 	all->data.map_height = get_map_height(all->data.map);
-	all->data.p_x = get_player_pos(all->data.map, 0, &all->data) * (66 / MINIMAP_SCALE);
-	all->data.p_y = get_player_pos(all->data.map, 1, &all->data) * (66 / MINIMAP_SCALE);
+	all->data.p_x = get_player_pos(all->data.map, 0, &all->data) * (16);
+	all->data.p_y = get_player_pos(all->data.map, 1, &all->data) * (16);
 	all->data.fov = 60;
-	all->data.plane_dim_x = 320;
-	all->data.plane_dim_y = 120;
 	set_vision(&all->data);
 	all->data.p_speed = 20;
 	all->data.p_rot_speed = 15;
-	all->data.i = 400;
-	all->data.color = 50;
 	all->data.screen_width = 1200;
 	all->data.screen_height = 1000;
-	all->data.dtp = all->data.plane_center_dim / tan(turn_to_rad(30));
-	all->data.mlx_window = mlx_new_window(all->data.mlx_instance, all->data.screen_width, all->data.screen_height, "charaf windows");
-	all->data.mlx_bgimage = mlx_new_image(all->data.mlx_instance, all->data.screen_width, all->data.screen_height);
-	all->data.mlx_bgimage_addr = mlx_get_data_addr(all->data.mlx_bgimage, &all->data.bits_per_pixel, &all->data.line_length, &all->data.endian); 
+	all->data.mlx_window = mlx_new_window(all->data.mlx_instance, \
+	all->data.screen_width, \
+	all->data.screen_height, "charaf windows");
+	all->data.mlx_bgimage = mlx_new_image(all->data.mlx_instance, \
+	all->data.screen_width, all->data.screen_height);
+	all->data.mlx_bgimage_addr = mlx_get_data_addr(all->data.mlx_bgimage, \
+	&all->data.bits_per_pixel, &all->data.line_length, &all->data.endian);
 	all->data.j = 50;
 	draw_pixels(&all->data);
-	mlx_put_image_to_window(all->data.mlx_instance, all->data.mlx_window, all->data.mlx_bgimage, 0, 0);
+	mlx_put_image_to_window(all->data.mlx_instance, \
+	all->data.mlx_window, all->data.mlx_bgimage, 0, 0);
 	mlx_hook(all->data.mlx_window, 2, 1L << 0, key_hook, all);
 	mlx_loop(all->data.mlx_instance);
 }

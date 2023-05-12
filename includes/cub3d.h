@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/12 15:43:51 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/13 00:00:20 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,12 @@ typedef struct s_data
 	char	vision;
 	char	fin_9ass;
 	double	fov_m;
+	int wall_start;
+	int start_y;
 	t_ray	*ray;
+	int	fill_y;
+	int	fill_offset;
+	int	fill_x;
 }t_data;
 
 typedef struct s_all
@@ -138,7 +143,7 @@ typedef struct s_all
 # define WALL_HEIGHT 50
 # define WALL_WIDTH 8
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstart);
+void	my_mlx_pixel_put(t_data *data, int x, int color, int flag);
 int		get_map_height(char **map);
 int		ft_strlen(char *s);
 int		get_player_pos(char **map, int flag, t_data *data);
@@ -154,5 +159,12 @@ void	set_vision(t_data *data);
 void	ft_execution(t_all *all);
 void	ft_parsing(t_all *all, char *av);
 int		key_hook(int keycode, t_all *all);
+void do_put_for_x(t_data *data, unsigned int *toput);
+void do_put_for_y(t_data *data, unsigned int *toput);
+char	n_s(t_data *data);
+char	e_w(t_data *data);
+void do_put_for_y(t_data *data, unsigned int *toput);
+void	draw_rect(t_data *data);
+
 
 #endif
