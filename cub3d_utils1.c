@@ -3,10 +3,12 @@
 
 int ft_strlen(char *s)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while(s && s[i])
 		i++;
-	return i;
+	return (i);
 }
 
 char n_s(t_data *data)
@@ -17,35 +19,39 @@ char n_s(t_data *data)
 			return ('N');
 		return ('S');
 	}
-	return 0;
+	return (0);
 }
 char e_w(t_data *data)
 {
-	if (data->fin_9ass =='x')
+	if (data->fin_9ass == 'x')
 	{
 		if (data->p_x > data->inter_x)
 			return ('W');
 		return ('E');
 	}
-	return 0;
+	return (0);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstart)
 {
-	char	*dst;
-	int fill_y;
-	int fill_offset;
-	unsigned int toput;
-	int fill_x = 0;
+	char			*dst;
+	int				fill_y;
+	int				fill_offset;
+	unsigned int	toput;
+	int 			fill_x;
+
+	if (x < 0 || x >= data->screen_width || y < 0 || y >= data->screen_height)
+		return;
+	fill_x = 0;
 	dst = data->mlx_bgimage_addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	if (data->fin_9ass == 'x')
 	{
 		if (e_w(data) == 'E')
 		{
-				fill_x = data->inter_y * (float)data->ea.text_width/ 16;
+				fill_x = data->inter_y * (float)data->ea.text_width / 16;
 				if (fill_x > data->ea.text_width)
 					fill_x %= data->ea.text_width;
-				fill_y =  (int)((wstart) * data->ea.text_height / data->wall_height) % data->ea.text_height;
+				fill_y =  (int)((wstart) * data->ea.text_height / data->wall_height);
 				fill_offset = fill_y * data->ea.text_line_lenght + fill_x * (data->ea.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->ea.text + fill_offset);
 		}
@@ -54,7 +60,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 				fill_x = data->inter_y * (float)data->we.text_width/ 16;
 				if (fill_x > data->we.text_width)
 					fill_x %= data->we.text_width;
-				fill_y =  (int)((wstart) * data->we.text_height / data->wall_height) % data->we.text_height;
+				fill_y =  (int)((wstart) * data->we.text_height / data->wall_height);
 				fill_offset = fill_y * data->we.text_line_lenght + fill_x * (data->we.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->we.text + fill_offset);
 		}
@@ -66,7 +72,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 				fill_x = data->inter_y * (float)data->so.text_width/ 16;
 				if (fill_x > data->so.text_width)
 					fill_x %= data->so.text_width;
-				fill_y =  (int)((wstart) * data->so.text_height / data->wall_height) % data->so.text_height;
+				fill_y =  (int)((wstart) * data->so.text_height / data->wall_height);
 				fill_offset = fill_y * data->so.text_line_lenght + fill_x * (data->so.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->so.text + fill_offset);
 			}
@@ -75,7 +81,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color, int flag, int wstar
 				fill_x = data->inter_y * (float)data->no.text_width/ 16;
 				if (fill_x > data->no.text_width)
 					fill_x %= data->no.text_width;
-				fill_y =  (int)((wstart) * data->no.text_height / data->wall_height) % data->no.text_height;
+				fill_y =  (int)((wstart) * data->no.text_height / data->wall_height);
 				fill_offset = fill_y * data->no.text_line_lenght + fill_x * (data->no.bit_per_pixel / 8);
 				toput = *(unsigned int *)(data->no.text + fill_offset);
 			}
@@ -94,8 +100,6 @@ void	draw_rect(t_data *data)
 	int		wall_start = 0;
     data->middle_y = round(data->screen_height / 2);
 	data->wall_height = round((64 / data->df) * 200);
-	if (data->wall_height > data->screen_height)
-		data->wall_height = data->screen_height;
 	double start_y =  round(data->middle_y - (data->wall_height / 2));
 	double end_y = round(start_y + data->wall_height);
 	cstart_y = start_y;
@@ -118,11 +122,14 @@ void	draw_rect(t_data *data)
 	data->start_x++;
 }
 
-void cast_rays(t_data *data)
+void	cast_rays(t_data *data)
 {
+	double	fst_ray;
+	double	ray_end;
+
 	data->start_x = 0;
-	double fst_ray = data->p_angle + (data->fov / 2);
-	double ray_end = fst_ray - data->fov;
+	fst_ray = data->p_angle + (data->fov / 2);
+	ray_end = fst_ray - data->fov;
 	while(fst_ray > ray_end)
 	{
 		data->fstrayy = fst_ray;
@@ -136,7 +143,9 @@ void cast_rays(t_data *data)
 
 int get_map_height(char **map)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while(map[i])
 		i++;
 	return i;

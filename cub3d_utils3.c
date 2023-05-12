@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/11 21:54:41 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/12 22:30:46 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ size_t	ft_strlcpy(char *dest, char *str, size_t size)
 	dest[x] = '\0';
 	return (ft_strlen(str));
 }
+
+
 
 void	ft_counting_map_size(t_all *all)
 {
@@ -120,29 +122,17 @@ char	*return_elements(char *str)
 void	put_it(t_all *all, char *name)
 {
 	if (strncmp(name, "EA", 2) == 0)
-	{
 		all->elem->ea = return_elements(name + 2);
-	}
 	if (strncmp(name, "SO", 2)==0)
-	{
 		all->elem->so = return_elements(name + 2);
-	}
 	if (strncmp(name, "NO", 2)==0)
-	{
 		all->elem->no = return_elements(name + 2);
-	}
 	if (strncmp(name, "WE", 2)==0)
-	{
 		all->elem->we = return_elements(name + 2);
-	}
 	if (strncmp(name, "F", 1) == 0)
-	{
 		all->elem->f_temp = return_elements(name + 1);
-	}
 	if (strncmp(name, "C", 1) == 0)
-	{
 		all->elem->c_temp = return_elements(name + 1);
-	}
 }
 
 void	ft_put_map(char *key, char *name, int *x)
@@ -150,12 +140,9 @@ void	ft_put_map(char *key, char *name, int *x)
 	int	i;
 
 	i = 0;
-
-
 	ft_strlcpy(key, name, ft_strlen(name));
 	free(name);
 	*x = *x + 1;
-
 }
 
 void	init(char **use, t_all *all)

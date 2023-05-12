@@ -1,49 +1,52 @@
 #include "includes/cub3d.h"
 
-int get_player_pos(char **map, int flag, t_data *data)
+int	get_player_pos(char **map, int flag, t_data *data)
 {
-	int i = 0;
-	int j = 0;
+	int i;
+	int j;
+
+	i = 0;
 	while(map[i])
 	{
 		while(map[i][j])
 		{
+			j = 0;
 			if (map[i][j] == 'N' || map[i][j] == 'W' || map[i][j] == 'E' || map[i][j] == 'S')
 			{
 				data->vision = map[i][j];
 				if (flag == 0)
-					return j;
-				return i;
+					return (j);
+				return (i);
 			}
 			j++;
 		}
 		i++;
-		j = 0;
+	
 	}
-	return -1;
+	return (-1);
 }
 
 int detect_colation(char **map, int py, int px, double angle)
 {
+	int	newx;
+	int	newy;
 	(void)angle;
-	int newx;
-	int newy;
 
-	newx = px / (64 / minimap_scale);
-	newy = py / (64 / minimap_scale);
-	if (newy <= 0 || newx <= 0)
+	newx = px / (64 / MINIMAP_SCALE);
+	newy = py / (64 / MINIMAP_SCALE);
+	if (newy <= 0 || newx < 0)
 		return (0);
  	 if (map[newy] && map[newy][newx] && ( map[newy][newx] == '1'))
-		return 0;
-	return 1;
+		return (0);
+	return (1);
 }
 
-double turn_to_rad(double deg)
+double	turn_to_rad(double deg)
 {
 	return (deg * (PI / 180.0));
 }
 
-void set_vision(t_data *data)
+void	set_vision(t_data *data)
 {
 	if (data->vision == 'E')
 		data->p_angle = 0;
@@ -55,12 +58,12 @@ void set_vision(t_data *data)
 		data->p_angle = 270;
 }
 
-int ft_execution(t_all *all)
+void ft_execution(t_all *all)
 {
 	all->data.map_width = ft_strlen(all->data.map[0]);
 	all->data.map_height = get_map_height(all->data.map);
-	all->data.p_x = get_player_pos(all->data.map, 0, &all->data) * (66 / minimap_scale);
-	all->data.p_y = get_player_pos(all->data.map, 1, &all->data) * (66 / minimap_scale);
+	all->data.p_x = get_player_pos(all->data.map, 0, &all->data) * (66 / MINIMAP_SCALE);
+	all->data.p_y = get_player_pos(all->data.map, 1, &all->data) * (66 / MINIMAP_SCALE);
 	all->data.fov = 60;
 	all->data.plane_dim_x = 320;
 	all->data.plane_dim_y = 120;
@@ -80,5 +83,4 @@ int ft_execution(t_all *all)
 	mlx_put_image_to_window(all->data.mlx_instance, all->data.mlx_window, all->data.mlx_bgimage, 0, 0);
 	mlx_hook(all->data.mlx_window, 2, 1L << 0, key_hook, all);
 	mlx_loop(all->data.mlx_instance);
-	return 0;
 }

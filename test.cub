@@ -1,12 +1,11 @@
 NO /Users/abouzanb/Desktop/cub3d/textures/two.xpm
 SO /Users/abouzanb/Desktop/cub3d/textures/redbrick.xpm
 WE /Users/abouzanb/Desktop/cub3d/textures/lleagle.xpm
-EAs /Users/abouzanb/Desktop/cub3d/textures/groo.xpm
-
+EA /Users/abouzanb/Desktop/cub3d/textures/groo.xpm
 F 220,100,0
 C 225,30,0
 
-11111111
-10N10111
-10000001
+1111111
+10N10101
+10001001
 11111111

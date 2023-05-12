@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/11 20:05:37 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:43:51 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,8 @@ typedef struct s_all
 	t_map		map;
 	t_elem		*elem;
 }t_all;
-# define mapWidth 20
-# define mapHeight 20
-# define screenWidth 600
-# define screenHeight 080
 # define PI 3.10
-# define minimap_scale 4
+# define MINIMAP_SCALE 4
 # define MAP_WIDTH 10
 # define MAP_HEIGHT 10
 # define WALL_HEIGHT 50
@@ -155,7 +151,7 @@ char	*ft_substr(char *str, unsigned int start, size_t len);
 char	*get_next_line(int fd);
 void	draw_pixels(t_data *data);
 void	set_vision(t_data *data);
-int		ft_execution(t_all *all);
+void	ft_execution(t_all *all);
 void	ft_parsing(t_all *all, char *av);
 int		key_hook(int keycode, t_all *all);
 
