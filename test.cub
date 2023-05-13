@@ -1,7 +1,7 @@
-NO textures/one.xpm
-SO textures/redbrick.xpm
-WE textures/lleagle.xpm
-EA textures/text_no.xpm
+NO /Users/abouzanb/Desktop/cub3d/textures/charaf-_1_.xpm
+SO /Users/abouzanb/Desktop/cub3d/textures/anas-_1_.xpm
+WE /Users/abouzanb/Desktop/cub3d/textures/o-_1_.xpm
+EA /Users/abouzanb/Desktop/cub3d/textures/text-_1_.xpm
 F 220,100,0
 C 2205,30,0
 
