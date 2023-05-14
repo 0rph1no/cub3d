@@ -38,10 +38,7 @@ void	draw_pixels(t_data *data)
 	mlx_put_image_to_window(data->mlx_instance, data->mlx_window, data->mlx_bgimage, 0, 0);
 }
 
-void key_code()
-{
 
-}
 
 int	key_hook(int keycode, t_all *all)
 {

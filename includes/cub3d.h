@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/13 00:00:20 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/13 23:47:34 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ typedef struct s_emelemnts
 	char	*no;
 	char	*f_temp;
 	char	*c_temp;
+	int 	ctemp1;
+	int		ctemp2;
+	int		ctemp3;
+	int		ftemp1;
+	int		ftemp2;
+	int		ftemp3;
 }t_elem;
 
 typedef struct s_text_colo
@@ -127,6 +133,8 @@ typedef struct s_data
 	int	fill_y;
 	int	fill_offset;
 	int	fill_x;
+	int f_colour;
+	int c_colour;
 }t_data;
 
 typedef struct s_all
@@ -165,6 +173,6 @@ char	n_s(t_data *data);
 char	e_w(t_data *data);
 void do_put_for_y(t_data *data, unsigned int *toput);
 void	draw_rect(t_data *data);
-
-
+char	**ft_split(char *str, char cut);
+int	ft_atoi(const char *s);
 #endif

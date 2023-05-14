@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:41:08 by ceddibao          #+#    #+#             */
-/*   Updated: 2023/05/12 23:41:15 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/14 02:03:13 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	draw_rect(t_data *data)
 	int		steps;
 	double	cstart_y;
 	double	end_y;
+	double i = 0;
 
 	data->middle_y = round(data->screen_height / 2);
 	data->wall_height = round((64 / data->df) * 200);
@@ -78,6 +79,11 @@ void	draw_rect(t_data *data)
 	cstart_y = data->start_y;
 	steps = data->text_height / data->wall_height;
 	data->wall_start = 0;
+	while (i < end_y)
+	{
+		my_mlx_pixel_put(data, data->start_x, data->c_colour, 1);
+		i++;
+	}
 	while (end_y > data->start_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, 0xFFFFFF, 0);
@@ -87,7 +93,7 @@ void	draw_rect(t_data *data)
 	data->start_y = end_y;
 	while (data->screen_height > data->start_y)
 	{
-		my_mlx_pixel_put(data, data->start_x, 0xD84242, 1);
+		my_mlx_pixel_put(data, data->start_x, data->f_colour, 1);
 		data->start_y++;
 	}
 	data->start_x++;

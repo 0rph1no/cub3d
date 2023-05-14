@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/12 22:35:37 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/14 01:32:05 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,50 @@ size_t	ft_strlcpy(char *dest, char *str, size_t size)
 	}
 	dest[x] = '\0';
 	return (ft_strlen(str));
+}
+
+void count_str(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str && str[i])
+		i++;
+	if (i != 3)
+		exit(write(2, "Error\n", 7));
+}
+
+
+
+void initilaized(t_all *all, char **f, char **c)
+{
+	t_elem l;
+	l.ctemp1 = ft_atoi(c[0]);
+	l.ctemp2 = ft_atoi(c[1]);
+	l.ctemp3 = ft_atoi(c[2]);
+	l.ftemp1 = ft_atoi(f[0]);
+	l.ftemp2 = ft_atoi(f[1]);
+	l.ftemp3 = ft_atoi(f[2]);
+	all->data.f_colour = (l.ftemp1 * 65536) + (l.ftemp2 * 256) + l.ftemp3;
+	all->data.c_colour = (l.ctemp1 * 65536) + (l.ctemp2 * 256) + l.ctemp3;
+}
+
+void set_it(t_all *all, char *c, char *f)
+{
+	char **ff;
+	char **cc;
+
+	ff = ft_split(f, ',');	
+	cc = ft_split(c, ',');
+	count_str(ff);
+	count_str(cc);
+	initilaized(all, ff, cc);
+	
+	
+}
+void handle_rgb(t_all *all)
+{
+	set_it(all, all->elem->c_temp, all->elem->f_temp);
 }
 
 void	ft_counting_map_size(t_all *all)
@@ -215,7 +259,7 @@ void	put_them_in_the_place(t_all *all)
 	all->map.use[a] = NULL;
 	if ( !all->elem->ea || !all->elem->we || !all->elem->c_temp \
 	||!all->elem->f_temp ||!all->elem->no ||!all->elem->so)
-	    exit(write(2,  "Error\nSome elements of the map is not valid\nOr \
+		exit(write(2,  "Error\nSome elements of the map is not valid\nOr \
 they are not puted in their right place\nPleasee make sure the \
 everything is in its place\n", 137));
 }
@@ -356,6 +400,7 @@ void	check_map(char **map)
 void	is_they_valid(t_all *all)
 {
 	check_map(all->map.use);
+	handle_rgb(all);
 	check_textures(all);
 	all->data.map = all->map.use;
 }
