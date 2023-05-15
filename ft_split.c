@@ -6,12 +6,13 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:33:04 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/13 23:10:38 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 02:35:18 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "includes/cub3d.h"
+
 static int	strings_count(char *str, char split)
 {
 	int	count;

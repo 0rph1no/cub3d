@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/14 19:23:33 by abouzanb          #+#    #+#             */
+/*   Updated: 2023/05/14 21:36:58 by abouzanb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/cub3d.h"
-#include "includes/get_next_line.h"
 
 double	drawLine(t_data *data, double x1, double y1)
 {
@@ -37,8 +48,6 @@ void	draw_pixels(t_data *data)
 	cast_rays(data);
 	mlx_put_image_to_window(data->mlx_instance, data->mlx_window, data->mlx_bgimage, 0, 0);
 }
-
-
 
 int	key_hook(int keycode, t_all *all)
 {

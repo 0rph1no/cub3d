@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*																			  */
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:41:08 by ceddibao          #+#    #+#             */
-/*   Updated: 2023/05/14 02:03:13 by abouzanb         ###   ########.fr       */
-/*                                                                            */
+/*   Updated: 2023/05/14 19:03:30 by abouzanb         ###   ########.fr       */
+/*																			  */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
@@ -68,22 +68,27 @@ void	my_mlx_pixel_put(t_data *data, int x, int color, int flag)
 void	draw_rect(t_data *data)
 {
 	int		steps;
-	double	cstart_y;
+	int		cstart_y;
 	double	end_y;
-	double i = 0;
+	int		i;
 
 	data->middle_y = round(data->screen_height / 2);
 	data->wall_height = round((64 / data->df) * 200);
+	i = 0;
 	data->start_y = round(data->middle_y - (data->wall_height / 2));
 	end_y = round(data->start_y + data->wall_height);
 	cstart_y = data->start_y;
 	steps = data->text_height / data->wall_height;
+	cstart_y = 0;
 	data->wall_start = 0;
-	while (i < end_y)
+	data->start_y = 0;
+	while (i < cstart_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, data->c_colour, 1);
+		data->start_y++;
 		i++;
 	}
+	data->start_y = cstart_y;
 	while (end_y > data->start_y)
 	{
 		my_mlx_pixel_put(data, data->start_x, 0xFFFFFF, 0);

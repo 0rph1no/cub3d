@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_utils4.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/15 02:41:23 by abouzanb          #+#    #+#             */
+/*   Updated: 2023/05/15 02:55:22 by abouzanb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/cub3d.h"
 
-char	*ft_substr(char  *str, unsigned int start, size_t len)
+char	*ft_substr(char *str, unsigned int start, size_t len)
 {
 	char	*ptr;
 	size_t	a;
@@ -57,7 +69,7 @@ static void	help_function(const char *s1, int i, int lenth, char *str)
 	str[x] = '\0';
 }
 
-char	*ft_strtrim(char *s1, char  *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	int		i;
 	int		x;
@@ -67,7 +79,6 @@ char	*ft_strtrim(char *s1, char  *set)
 
 	if (!s1 || !set)
 		return (NULL);
-
 	lenth = ft_strlen(s1);
 	x = 0;
 	i = 0;
@@ -85,12 +96,12 @@ char	*ft_strtrim(char *s1, char  *set)
 	return (str);
 }
 
-void do_put_for_x(t_data *data, unsigned int *toput)
+void	do_put_for_x(t_data *data, unsigned int *toput)
 {
-	// char			*dst;
 	int				fill_y;
 	int				fill_offset;
 	int				fill_x;
+
 	if (e_w(data) == 'E')
 	{
 		fill_x = data->inter_y * (float)data->ea.text_width / 16;

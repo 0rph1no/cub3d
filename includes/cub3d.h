@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/13 23:47:34 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 02:51:22 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include "get_next_line.h"
 
 typedef struct s_S
 {
@@ -57,7 +58,7 @@ typedef struct s_emelemnts
 	char	*no;
 	char	*f_temp;
 	char	*c_temp;
-	int 	ctemp1;
+	int		ctemp1;
 	int		ctemp2;
 	int		ctemp3;
 	int		ftemp1;
@@ -127,14 +128,14 @@ typedef struct s_data
 	char	vision;
 	char	fin_9ass;
 	double	fov_m;
-	int wall_start;
-	int start_y;
+	int		wall_start;
+	int		start_y;
 	t_ray	*ray;
-	int	fill_y;
-	int	fill_offset;
-	int	fill_x;
-	int f_colour;
-	int c_colour;
+	int		fill_y;
+	int		fill_offset;
+	int		fill_x;
+	int		f_colour;
+	int		c_colour;
 }t_data;
 
 typedef struct s_all
@@ -167,12 +168,25 @@ void	set_vision(t_data *data);
 void	ft_execution(t_all *all);
 void	ft_parsing(t_all *all, char *av);
 int		key_hook(int keycode, t_all *all);
-void do_put_for_x(t_data *data, unsigned int *toput);
-void do_put_for_y(t_data *data, unsigned int *toput);
+void	do_put_for_x(t_data *data, unsigned int *toput);
+void	do_put_for_y(t_data *data, unsigned int *toput);
 char	n_s(t_data *data);
 char	e_w(t_data *data);
-void do_put_for_y(t_data *data, unsigned int *toput);
+void	do_put_for_y(t_data *data, unsigned int *toput);
 void	draw_rect(t_data *data);
 char	**ft_split(char *str, char cut);
-int	ft_atoi(const char *s);
+int		ft_atoi(char *s);
+int		all_is_space(char *s);
+void	init(char **use, t_all *all);
+void	ft_put_map(char *key, char *name, int *x);
+void	put_it(t_all *all, char *name);
+char	*return_elements(char *str);
+void	read_map(t_all *all);
+void	set_it(t_all *all, char *c, char *f);
+void	check_map(char **map);
+void	handle_rgb(t_all *all);
+size_t	ft_strlcpy(char *dest, char *str, size_t size);
+void	count_str(char **str);
+void	ft_help_check_ele(char **str, t_l *l);
+void	initilaized(t_all *all, char **f, char **c);
 #endif
