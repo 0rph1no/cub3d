@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 02:41:23 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 02:55:22 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:49:50 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,30 +98,26 @@ char	*ft_strtrim(char *s1, char *set)
 
 void	do_put_for_x(t_data *data, unsigned int *toput)
 {
-	int				fill_y;
-	int				fill_offset;
-	int				fill_x;
-
 	if (e_w(data) == 'E')
 	{
-		fill_x = data->inter_y * (float)data->ea.text_width / 16;
-		if (fill_x > data->ea.text_width)
-			fill_x %= data->ea.text_width;
-		fill_y = (int)((data->wall_start) * \
+		data->fill_x = data->inter_y * (float)data->ea.text_width / 16;
+		if (data->fill_x > data->ea.text_width)
+			data->fill_x %= data->ea.text_width;
+		data->fill_y = (int)((data->wall_start) * \
 		data->ea.text_height / data->wall_height);
-		fill_offset = fill_y * data->ea.text_line_lenght + \
-		fill_x * (data->ea.bit_per_pixel / 8);
-		*toput = *(unsigned int *)(data->ea.text + fill_offset);
+		data->fill_offset = data->fill_y * data->ea.text_line_lenght + \
+		data->fill_x * (data->ea.bit_per_pixel / 8);
+		*toput = *(unsigned int *)(data->ea.text + data->fill_offset);
 	}
 	else
 	{
-		fill_x = data->inter_y * (float)data->we.text_width / 16;
-		if (fill_x > data->we.text_width)
-			fill_x %= data->we.text_width;
-		fill_y = (int)((data->wall_start) * \
+		data->fill_x = data->inter_y * (float)data->we.text_width / 16;
+		if (data->fill_x > data->we.text_width)
+			data->fill_x %= data->we.text_width;
+		data->fill_y = (int)((data->wall_start) * \
 		data->we.text_height / data->wall_height);
-		fill_offset = fill_y * data->we.text_line_lenght \
-		+ fill_x * (data->we.bit_per_pixel / 8);
-		*toput = *(unsigned int *)(data->we.text + fill_offset);
+		data->fill_offset = data->fill_y * data->we.text_line_lenght \
+		+ data->fill_x * (data->we.bit_per_pixel / 8);
+		*toput = *(unsigned int *)(data->we.text + data->fill_offset);
 	}
 }

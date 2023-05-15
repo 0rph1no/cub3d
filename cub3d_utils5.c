@@ -6,7 +6,7 @@
 /*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 00:02:52 by ceddibao          #+#    #+#             */
-/*   Updated: 2023/05/13 00:02:54 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:03:41 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,32 @@ void	cast_rays(t_data *data)
 	{
 		data->fstrayy = fst_ray;
 		data->lstrayy = ray_end;
-		data->df = drawLine(data, data->p_x, data->p_y);
+		data->df = drawline(data, data->p_x, data->p_y);
 		data->df = data->df * cos(turn_to_rad(fst_ray - data->p_angle));
 		draw_rect(data);
 		fst_ray = fst_ray - (60 / data->screen_width);
+	}
+}
+
+void	do_draw(t_data *data, int i, int cstart_y, int end_y)
+{
+	while (i < cstart_y)
+	{
+		my_mlx_pixel_put(data, data->start_x, data->c_colour, 1);
+		data->start_y++;
+		i++;
+	}
+	data->start_y = cstart_y;
+	while (end_y > data->start_y)
+	{
+		my_mlx_pixel_put(data, data->start_x, 0xFFFFFF, 0);
+		data->start_y++;
+		data->wall_start++;
+	}
+	data->start_y = end_y;
+	while (data->screen_height > data->start_y)
+	{
+		my_mlx_pixel_put(data, data->start_x, data->f_colour, 1);
+		data->start_y++;
 	}
 }

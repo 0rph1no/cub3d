@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:58:01 by ceddibao          #+#    #+#             */
-/*   Updated: 2023/05/15 02:48:14 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:36:58 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void	ft_execution(t_all *all)
 	mlx_put_image_to_window(all->data.mlx_instance, \
 	all->data.mlx_window, all->data.mlx_bgimage, 0, 0);
 	mlx_hook(all->data.mlx_window, 2, 1L << 0, key_hook, all);
+	mlx_hook(all->data.mlx_window, 17, 0L, close_window, NULL);
 	mlx_loop(all->data.mlx_instance);
 }

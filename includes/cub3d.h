@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 02:51:22 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:59:11 by ceddibao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int		ft_strlen(char *s);
 int		get_player_pos(char **map, int flag, t_data *data);
 int		detect_colation(char **map, int x, int y, double angle);
 double	turn_to_rad(double deg);
-double	drawLine(t_data *data, double x1, double y1);
+double	drawline(t_data *data, double x1, double y1);
 void	cast_rays(t_data *data);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char *str, unsigned int start, size_t len);
@@ -189,4 +189,11 @@ size_t	ft_strlcpy(char *dest, char *str, size_t size);
 void	count_str(char **str);
 void	ft_help_check_ele(char **str, t_l *l);
 void	initilaized(t_all *all, char **f, char **c);
+int		close_window(void);
+void	do_draw(t_data *data, int i, int cstart_y, int end_y);
+void	change_angle(int keycode, t_data *data);
+int		move_right(t_data *data);
+int		move_left(t_data *data);
+int		move_down(t_data *data);
+int		move_up(t_data *data);
 #endif

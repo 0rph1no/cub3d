@@ -79,27 +79,8 @@ void	draw_rect(t_data *data)
 	end_y = round(data->start_y + data->wall_height);
 	cstart_y = data->start_y;
 	steps = data->text_height / data->wall_height;
-	cstart_y = 0;
 	data->wall_start = 0;
 	data->start_y = 0;
-	while (i < cstart_y)
-	{
-		my_mlx_pixel_put(data, data->start_x, data->c_colour, 1);
-		data->start_y++;
-		i++;
-	}
-	data->start_y = cstart_y;
-	while (end_y > data->start_y)
-	{
-		my_mlx_pixel_put(data, data->start_x, 0xFFFFFF, 0);
-		data->start_y++;
-		data->wall_start++;
-	}
-	data->start_y = end_y;
-	while (data->screen_height > data->start_y)
-	{
-		my_mlx_pixel_put(data, data->start_x, data->f_colour, 1);
-		data->start_y++;
-	}
+	do_draw(data, i, cstart_y, end_y);
 	data->start_x++;
 }
