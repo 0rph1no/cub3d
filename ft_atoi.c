@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 22:54:47 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 02:41:36 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:06:52 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	helper_function(const char *s, int *type)
 	while (s[i] == ' ')
 			i++;
 	if (s[i] == '+' || s[i] == '-')
-		exit(write(2, "Error\nInvalid character in RGB\n",32));
+		exit(write(2, "Error\nInvalid character in RGB\n", 32));
 	return (i);
 }
 

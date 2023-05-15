@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 20:57:59 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 02:28:49 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:46:05 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,21 @@
 
 void	put_them_in_the_place(t_all *all)
 {
-	int	elements;
-	int	i;
-	int	x;
-	int	a;
-	int	ok;
+	t_temp	t;
 
-	ok = 0;
-	x = 0;
-	a = 0;
-	elements = 0;
+	t.ok = 0;
+	t.x = 0;
+	t.a = 0;
+	t.elements = 0;
 	all->elem = calloc(sizeof(t_elem), 1);
 	all->map.use = calloc(sizeof(char *) * (1 + all->map.row_number), 1);
 	all->map.use[all->map.row_number] = NULL;
 	init(all->map.use, all);
-	i = 0;
-	while (all->map.map[i])
-	{
-		if (elements < 6)
-		{
-			if (all->map.map[i][0] == '\n')
-				i++;
-			else
-			{
-				put_it(all, all->map.map[i++]);
-				elements++;
-			}
-		}
-		else if (all->map.map[i][0] == '\n' && x == 0)
-			i++;
-		else
-		{
-			if (ok == 0 && (all->map.map[i][0] == '\n' \
-			|| all_is_space(all->map.map[i]) == 0))
-				i++;
-			else
-			{
-				ft_put_map(all->map.use[a], all->map.map[i], &a);
-				x = 1;
-				i++;
-				ok = 1;
-			}
-		}
-	}
-	free(all->map.use[a]);
-	all->map.use[a] = NULL;
+	t.i = 0;
+	while (all->map.map[t.i])
+		ft_help_put_them_in_the_place(all, &t);
+	free(all->map.use[t.a]);
+	all->map.use[t.a] = NULL;
 	if (!all->elem->ea || !all->elem->we || !all->elem->c_temp \
 	||!all->elem->f_temp ||!all->elem->no ||!all->elem->so)
 		exit(write(2, "Error\nSome elements of the map is not valid\nOr \

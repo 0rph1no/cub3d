@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:23:33 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 12:24:05 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:15:02 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ double	drawline(t_data *data, double x1, double y1)
 		temp_x = x1;
 		temp_y = y1;
 		x1 += cos(turn_to_rad(data->fstrayy)) / 16;
-		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
+		if (detect_colation(data->map, y1, x1, data) == 0)
 		{
 			data->inter_y = y1;
 			data->inter_x = x1;
@@ -30,7 +30,7 @@ double	drawline(t_data *data, double x1, double y1)
 			return (sqrt(pow(x1 - data->p_x, 2) + pow(y1 - data->p_y, 2)));
 		}
 		y1 -= sin(turn_to_rad(data->fstrayy)) / 16;
-		if (detect_colation(data->map, y1, x1, data->p_angle) == 0)
+		if (detect_colation(data->map, y1, x1, data) == 0)
 		{
 			data->inter_y = x1;
 			data->inter_x = y1;

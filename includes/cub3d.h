@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 13:20:28 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 12:59:11 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:15:10 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 # include <fcntl.h>
 # include "get_next_line.h"
 
+typedef struct s_temp
+{
+	int	elements;
+	int	i;
+	int	x;
+	int	a;
+	int	ok;
+}t_temp;
 typedef struct s_S
 {
 	int	x;
@@ -156,7 +164,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int color, int flag);
 int		get_map_height(char **map);
 int		ft_strlen(char *s);
 int		get_player_pos(char **map, int flag, t_data *data);
-int		detect_colation(char **map, int x, int y, double angle);
+int		detect_colation(char **map, int x, int y, t_data *data);
 double	turn_to_rad(double deg);
 double	drawline(t_data *data, double x1, double y1);
 void	cast_rays(t_data *data);
@@ -196,4 +204,6 @@ int		move_right(t_data *data);
 int		move_left(t_data *data);
 int		move_down(t_data *data);
 int		move_up(t_data *data);
+void	free_str(char **str);
+void	ft_help_put_them_in_the_place(t_all *all, t_temp *t);
 #endif

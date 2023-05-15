@@ -10,12 +10,10 @@ $(NAME) : $(SRCS)
 	cc -lmlx -framework OpenGL -framework AppKit $(SRCS) -o $(NAME)
 
 	
-clean:
+clean :
 	rm -rf $(NAME)
 fclean : clean
 	
 
 re: fclean all
 
-run:
-	cc  -g3 -lmlx -framework OpenGL -framework AppKit cub3d_utils3.c get_next_line.c get_next_line_utils.c cub3d_utils4.c -o anas

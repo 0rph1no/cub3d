@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ceddibao <ceddibao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 23:58:01 by ceddibao          #+#    #+#             */
-/*   Updated: 2023/05/15 11:36:58 by ceddibao         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:03:04 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ int	get_player_pos(char **map, int flag, t_data *data)
 	return (-1);
 }
 
-int	detect_colation(char **map, int py, int px, double angle)
+int	detect_colation(char **map, int py, int px, t_data *data)
 {
 	int	newx;
 	int	newy;
 
-	(void)angle;
 	newx = px / (64 / MINIMAP_SCALE);
 	newy = py / (64 / MINIMAP_SCALE);
 	if (newy <= 0 || newx < 0)
 		return (0);
-	if (map[newy] && map[newy][newx] && (map[newy][newx] == '1'))
+	if (!map[newy] || !map[newy][newx] || \
+	map[newy][newx] == '1' || map[newy][newx] == '\n')
 		return (0);
 	return (1);
 }
@@ -74,8 +74,9 @@ void	ft_execution(t_all *all)
 {
 	all->data.map_width = ft_strlen(all->data.map[0]);
 	all->data.map_height = get_map_height(all->data.map);
-	all->data.p_x = get_player_pos(all->data.map, 0, &all->data) * (16);
-	all->data.p_y = get_player_pos(all->data.map, 1, &all->data) * (16);
+	all->data.p_x = get_player_pos(all->data.map, 0, \
+	&all->data) * (16) + (16 / 2);
+all->data.p_y = get_player_pos(all->data.map, 1, &all->data) * (16) + (16 / 2);
 	all->data.fov = 60;
 	set_vision(&all->data);
 	all->data.p_speed = 20;

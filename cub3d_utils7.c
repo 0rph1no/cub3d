@@ -6,7 +6,7 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 02:30:57 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 02:30:58 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:35:01 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	set_it(t_all *all, char *c, char *f)
 	count_str(ff);
 	count_str(cc);
 	initilaized(all, ff, cc);
+	free_str(ff);
+	free_str(cc);
 }
 
 void	handle_rgb(t_all *all)

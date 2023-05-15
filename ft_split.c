@@ -6,10 +6,9 @@
 /*   By: abouzanb <abouzanb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:33:04 by abouzanb          #+#    #+#             */
-/*   Updated: 2023/05/15 02:35:18 by abouzanb         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:06:40 by abouzanb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "includes/cub3d.h"
 
@@ -60,23 +59,23 @@ static void	helper_function(int x, char cut, char *str, char **ptr)
 	}
 }
 
-static void count(char *str)
+static void	count(char *str)
 {
-    int i;
-    int x;
-    
-    i = 0;
-    x = 0;
-    while (str[i])
-    {
-        if (str[i] == ',')
-          x++;  
-        i++;
-    }
-    if (x != 3)
-        exit(write(2, "Error\nERROR in RGB they are more numbers or less\n", 50));
+	int	i;
+	int	x;
 
+	i = 0;
+	x = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+		x++;
+		i++;
+	}
+	if (x != 3)
+		exit(write(2, "Error\nERROR in RGB they are more numbers or less\n", 50));
 }
+
 char	**ft_split(char *str, char cut)
 {
 	int		x;
